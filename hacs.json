@@ -1,0 +1,6 @@
+{
+  "name": "Weather Vn",
+  "country": ["VN"],
+  "homeassistant": "2025.7.26",
+  "hacs": "1.0.0"
+}
