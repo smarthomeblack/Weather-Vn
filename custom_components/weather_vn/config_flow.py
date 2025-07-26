@@ -45,7 +45,7 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             self._province = user_input[CONF_PROVINCE]
             self._scan_interval = user_input.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
-            _LOGGER.info(f"Đã chọn tỉnh {self._province} với thời gian cập nhật {self._scan_interval} phút")
+            _LOGGER.DEBUG(f"Đã chọn tỉnh {self._province} với thời gian cập nhật {self._scan_interval} phút")
             return await self.async_step_district()
 
         provinces_list = {k: v for k, v in PROVINCES.items()}
@@ -120,14 +120,11 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        # KHÔNG lưu trực tiếp config_entry - điều này đã bị deprecated
         self._entry = config_entry
 
     async def async_step_init(self, user_input=None) -> FlowResult:
         """Manage options."""
         errors = {}
-
-        # Lấy giá trị hiện tại từ options hoặc data
         current_scan_interval = self._entry.options.get(
             CONF_SCAN_INTERVAL,
             self._entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
@@ -141,7 +138,7 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
                     options = {
                         CONF_SCAN_INTERVAL: scan_interval,
                     }
-                    _LOGGER.info(f"Cập nhật thời gian cập nhật: {scan_interval} phút")
+                    _LOGGER.DEBUG(f"Cập nhật thời gian cập nhật: {scan_interval} phút")
                     return self.async_create_entry(title="", data=options)
                 else:
                     errors[CONF_SCAN_INTERVAL] = "invalid_scan_interval"

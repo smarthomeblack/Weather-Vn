@@ -29,7 +29,7 @@ async def _load_json_data_async(hass: HomeAssistant, filename: str) -> Dict[str,
     return await hass.async_add_executor_job(_load_json_data_sync, filename)
 
 
-# KHÔNG DÙNG phương thức đồng bộ trong config flow, sử dụng async_add_executor_job thay thế
+# KHÔNG DÙNG phương thức đồng bộ trong config flow
 async def load_json_data(hass: HomeAssistant, filename: str) -> Dict[str, Any]:
     """Load JSON data asynchronously."""
     return await hass.async_add_executor_job(_load_json_data_sync, filename)

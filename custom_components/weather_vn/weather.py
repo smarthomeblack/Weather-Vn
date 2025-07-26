@@ -39,15 +39,16 @@ async def async_setup_entry(
     scan_interval = DEFAULT_SCAN_INTERVAL
     if entry.options and CONF_SCAN_INTERVAL in entry.options:
         scan_interval = entry.options.get(CONF_SCAN_INTERVAL)
-        _LOGGER.info(f"Weather: Thời gian cập nhật từ options: {scan_interval} phút")
+        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật từ options: {scan_interval} phút")
     elif CONF_SCAN_INTERVAL in entry.data:
         scan_interval = entry.data.get(CONF_SCAN_INTERVAL)
-        _LOGGER.info(f"Weather: Thời gian cập nhật từ data: {scan_interval} phút")
+        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật từ data: {scan_interval} phút")
     else:
-        _LOGGER.info(f"Weather: Thời gian cập nhật mặc định: {scan_interval} phút")
+        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật mặc định: {scan_interval} phút")
+
     weather = WeatherVnWeather(province, district, entry.entry_id)
-    # Thiết lập thời gian cập nhật từ cấu hình
     weather._data_service = WeatherVnDataService(province, district, scan_interval)
+    weather._data_service.cache_duration = timedelta(minutes=1)
     async_add_entities([weather], True)
 
 
@@ -72,9 +73,6 @@ class WeatherVnWeather(WeatherEntity):
         self._attr_name = f"{DISTRICTS.get(district, district.capitalize())}"
         self._attr_unique_id = f"weathervn-{province}-{district}"
         self._attr_device_info = get_device_info(province, district)
-
-        # Để đơn giản, sử dụng thời gian mặc định
-        # Trong thực tế, cần lấy từ ConfigEntry
         self._data_service = WeatherVnDataService(province, district, DEFAULT_SCAN_INTERVAL)
         self._forecast_daily = None
         self._forecast_hourly = None
@@ -82,7 +80,12 @@ class WeatherVnWeather(WeatherEntity):
     async def async_update(self) -> None:
         """Update current conditions."""
         try:
+            # Luôn lấy dữ liệu mới, không sử dụng cache
+            _LOGGER.DEBUG("Weather: Đang cập nhật dữ liệu thời tiết mới...")
+            self._data_service.cache_data = None
+            self._data_service.cache_time = None
             data = await self._data_service.get_data()
+            _LOGGER.DEBUG("Weather: Đã cập nhật dữ liệu thời tiết thành công")
             if not data:
                 return
 

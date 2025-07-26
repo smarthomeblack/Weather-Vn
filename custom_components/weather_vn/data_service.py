@@ -20,7 +20,7 @@ class WeatherVnDataService:
         self.forecast_url = f"https://dbtt.edu.vn/thoi-tiet-{province}/{district}/7-ngay-toi"
         self.cache_data = None
         self.cache_time = None
-        self.cache_duration = timedelta(minutes=scan_interval)  # Sử dụng thời gian cập nhật từ cấu hình
+        self.cache_duration = timedelta(minutes=1)
 
     async def get_data(self):
         """Lấy dữ liệu thời tiết từ trang web."""
@@ -56,7 +56,7 @@ class WeatherVnDataService:
         except Exception as e:
             _LOGGER.error(f"Lỗi khi lấy dữ liệu thời tiết: {str(e)}")
             if self.cache_data:
-                _LOGGER.info("Sử dụng dữ liệu cũ từ cache")
+                _LOGGER.DEBUG("Sử dụng dữ liệu cũ từ cache")
                 return self.cache_data
             return None
 

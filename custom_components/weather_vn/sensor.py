@@ -468,12 +468,12 @@ class AirQualityDataUpdateCoordinator(DataUpdateCoordinator):
         scan_interval = DEFAULT_SCAN_INTERVAL
         if config_entry.options and CONF_SCAN_INTERVAL in config_entry.options:
             scan_interval = config_entry.options.get(CONF_SCAN_INTERVAL)
-            _LOGGER.info(f"Sử dụng thời gian cập nhật từ options: {scan_interval} phút")
+            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật từ options: {scan_interval} phút")
         elif CONF_SCAN_INTERVAL in config_entry.data:
             scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL)
-            _LOGGER.info(f"Sử dụng thời gian cập nhật từ data: {scan_interval} phút")
+            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật từ data: {scan_interval} phút")
         else:
-            _LOGGER.info(f"Sử dụng thời gian cập nhật mặc định: {scan_interval} phút")
+            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật mặc định: {scan_interval} phút")
 
         self.data_service = WeatherVnDataService(province, district, scan_interval)
 
@@ -488,7 +488,13 @@ class AirQualityDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Update data via HTTP request."""
         try:
-            return await self.data_service.get_data()
+            _LOGGER.DEBUG("Đang cập nhật dữ liệu mới...")
+            # Luôn lấy dữ liệu mới, bỏ qua cache trong data_service
+            self.data_service.cache_time = None
+            self.data_service.cache_data = None
+            data = await self.data_service.get_data()
+            _LOGGER.DEBUG("Cập nhật dữ liệu thành công!")
+            return data
         except Exception as err:
             _LOGGER.error("Error while updating air quality data: %s", err)
             return None
