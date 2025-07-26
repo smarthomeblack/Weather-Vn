@@ -4,7 +4,7 @@ Component tích hợp thông tin thời tiết và chất lượng không khí V
 
 ## Tính năng
 
-- Hiển thị thông tin thời tiết hiện tại: nhiệt độ, độ ẩm, điều kiện thời tiết, tốc độ gió, điểm sương, chỉ số UV
+- Hiển thị thông tin thời tiết hiện tại: nhiệt độ, độ ẩm, điều kiện thời tiết, tốc độ gió, điểm sương, chỉ số UV...
 - Dự báo thời tiết theo ngày (5 ngày tới)
 - Dự báo thời tiết theo giờ (48 giờ tới)
 - Hiển thị thông tin chất lượng không khí: AQI, PM2.5, PM10, O3, SO2, NO2, CO
