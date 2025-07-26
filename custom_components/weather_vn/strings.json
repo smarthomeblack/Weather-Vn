@@ -2,9 +2,11 @@
   "config": {
     "step": {
       "user": {
-        "title": "Weather Vn - Chọn tỉnh/thành phố",
+        "title": "Weather Vn - Cấu hình",
+        "description": "Thiết lập tỉnh thành và thời gian cập nhật dữ liệu",
         "data": {
-          "province": "Tỉnh/Thành phố"
+          "province": "Tỉnh/Thành phố",
+          "scan_interval": "Thời gian cập nhật (phút)"
         }
       },
       "district": {

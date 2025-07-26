@@ -1,4 +1,5 @@
 """Config flow for Weather Vn integration."""
+import logging
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
@@ -15,6 +16,8 @@ from .const import (
     _load_json_data_sync,
     _load_json_data_async,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -42,6 +45,7 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             self._province = user_input[CONF_PROVINCE]
+            self._scan_interval = user_input.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
             return await self.async_step_district()
 
         provinces_list = {k: v for k, v in PROVINCES.items()}
@@ -49,6 +53,18 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Required(CONF_PROVINCE): vol.In(provinces_list),
+                vol.Required(
+                    CONF_SCAN_INTERVAL,
+                    default=self._scan_interval,
+                ): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=5,
+                        max=180,
+                        step=5,
+                        mode=selector.NumberSelectorMode.SLIDER,
+                        unit_of_measurement="phút",
+                    )
+                ),
             }
         )
 
@@ -73,7 +89,7 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 data={
                     CONF_PROVINCE: province,
                     CONF_DISTRICT: district,
-                    CONF_SCAN_INTERVAL: DEFAULT_SCAN_INTERVAL,  # Thêm giá trị mặc định cho scan_interval
+                    CONF_SCAN_INTERVAL: self._scan_interval,  # Sử dụng giá trị đã chọn thay vì mặc định
                 },
             )
 
@@ -115,7 +131,9 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        # Thay vì lưu config_entry, lưu các dữ liệu cần thiết
+        # Lưu config_entry để sử dụng sau này
+        self.config_entry = config_entry
+        # Lưu các dữ liệu cần thiết
         self._entry_data = config_entry.data
         self._province = None
         self._scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
@@ -157,14 +175,17 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
     async def async_step_district(self, user_input=None) -> FlowResult:
         """Handle the district selection in options."""
         if user_input is not None:
-            return self.async_create_entry(
-                title="",
-                data={
-                    CONF_PROVINCE: self._province,
-                    CONF_DISTRICT: user_input[CONF_DISTRICT],
-                    CONF_SCAN_INTERVAL: self._scan_interval,
-                },
-            )
+            # Tạo dữ liệu cấu hình mới với thời gian cập nhật
+            new_data = {
+                CONF_PROVINCE: self._province,
+                CONF_DISTRICT: user_input[CONF_DISTRICT],
+                CONF_SCAN_INTERVAL: self._scan_interval,
+            }
+            
+            _LOGGER.debug(f"Cập nhật cấu hình với thời gian cập nhật: {self._scan_interval} phút")
+            
+            # Sử dụng phương thức mặc định
+            return self.async_create_entry(title="", data=new_data)
 
         # Lấy danh sách quận/huyện từ file JSON - sử dụng phiên bản async
         province_districts = await self._get_districts_for_province(self._province)
