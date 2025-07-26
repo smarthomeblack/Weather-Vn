@@ -15,7 +15,6 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.entity import DeviceInfo
 from .const import (
     ATTRIBUTION,
     CONF_PROVINCE,
@@ -23,10 +22,10 @@ from .const import (
     CONF_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
     DISTRICTS,
-    DOMAIN,
     CONDITION_CLASSES,
 )
 from .data_service import WeatherVnDataService
+from .sensor import get_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -64,14 +63,8 @@ class WeatherVnWeather(WeatherEntity):
         self._entry_id = entry_id
         self._attr_name = f"{DISTRICTS.get(district, district.capitalize())}"
         self._attr_unique_id = f"weathervn-{province}-{district}"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, f"{province}_{district}")},
-            name=f"Thời tiết {DISTRICTS.get(district, district.capitalize())}",
-            manufacturer="Weather Vn",
-            model="Weather and Air Quality Sensor",
-            sw_version="1.2.0",
-        )
-        
+        self._attr_device_info = get_device_info(province, district)
+
         # Để đơn giản, sử dụng thời gian mặc định
         # Trong thực tế, cần lấy từ ConfigEntry
         self._data_service = WeatherVnDataService(province, district, DEFAULT_SCAN_INTERVAL)

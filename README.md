@@ -15,13 +15,29 @@ Component tích hợp thông tin thời tiết và chất lượng không khí V
 
 ## Cài đặt
 
+### Cài đặt qua HACS (khuyến nghị)
+
+#### Phương pháp 1: Nút "Thêm vào HACS" (đơn giản nhất)
+
+[![Thêm vào HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=smarthomeblack&repository=Weather-Vn&category=integration)
+
+1. Nhấp vào nút "Thêm vào HACS" ở trên (hoạt động khi bạn đã đăng nhập vào Home Assistant).
+2. Xác nhận thêm kho lưu trữ vào HACS.
+3. Tìm và cài đặt "Weather Vn" từ menu HACS > Tích hợp.
+4. Khởi động lại Home Assistant.
+5. Thêm tích hợp: Cài đặt > Thiết bị & Dịch vụ > Thêm tích hợp > Weather Vn.
+6. Chọn tỉnh/thành phố và quận/huyện mà bạn muốn hiển thị thông tin thời tiết.
+7. Tùy chọn cấu hình thời gian cập nhật (mặc định là 30 phút).
+
+
 ### Cài đặt thủ công
 
-1. Sao chép thư mục `custom_components/weather_vn` vào thư mục `custom_components` trong cài đặt Home Assistant của bạn.
-2. Khởi động lại Home Assistant.
-3. Thêm tích hợp: Cài đặt > Thiết bị & Dịch vụ > Thêm tích hợp > Weather Vn.
-4. Chọn tỉnh/thành phố và quận/huyện mà bạn muốn hiển thị thông tin thời tiết.
-5. Tùy chọn cấu hình thời gian cập nhật (mặc định là 30 phút).
+1. Tải xuống [bản phát hành mới nhất](https://github.com/smarthomeblack/Weather-Vn/releases) hoặc sao chép nội dung repository.
+2. Sao chép thư mục `custom_components/weather_vn` vào thư mục `custom_components` trong cài đặt Home Assistant của bạn.
+3. Khởi động lại Home Assistant.
+4. Thêm tích hợp: Cài đặt > Thiết bị & Dịch vụ > Thêm tích hợp > Weather Vn.
+5. Chọn tỉnh/thành phố và quận/huyện mà bạn muốn hiển thị thông tin thời tiết.
+6. Tùy chọn cấu hình thời gian cập nhật (mặc định là 30 phút).
 
 ## Cấu hình
 

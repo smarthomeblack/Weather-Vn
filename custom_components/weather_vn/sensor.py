@@ -30,6 +30,17 @@ from .data_service import WeatherVnDataService
 _LOGGER = logging.getLogger(__name__)
 
 
+def get_device_info(province: str, district: str) -> DeviceInfo:
+    """Trả về device_info cho Weather Vn."""
+    return DeviceInfo(
+        identifiers={(DOMAIN, f"{province}_{district}")},
+        name=f"Thời tiết {district.capitalize()}",
+        manufacturer="Smarthome Black",
+        model="Weather Vn",
+        sw_version="2025.7.26",
+    )
+
+
 @dataclass
 class WeatherVnSensorEntityDescription(SensorEntityDescription):
     """Class describing Weather Vn sensor entities."""
@@ -315,14 +326,7 @@ class WeatherVnSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self.entity_description = description
         self._attr_unique_id = f"weathervn-{province}-{district}-{description.key}"
-
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, f"{province}_{district}")},
-            name=f"Thời tiết {district.capitalize()}",
-            manufacturer="Weather Vn",
-            model="Weather and Air Quality Sensor",
-            sw_version="1.0.0",
-        )
+        self._attr_device_info = get_device_info(province, district)
 
     @property
     def native_value(self):
@@ -413,13 +417,7 @@ class WeatherVnForecastSensor(CoordinatorEntity, SensorEntity):
 
         # Đảm bảo ID là đúng định dạng mong muốn
         self.entity_id = f"sensor.{key}"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, f"{province}_{district}")},
-            name=f"Thời tiết {district.capitalize()}",
-            manufacturer="Weather Vn",
-            model="Weather and Air Quality Sensor",
-            sw_version="1.0.0",
-        )
+        self._attr_device_info = get_device_info(province, district)
 
     @property
     def native_value(self):

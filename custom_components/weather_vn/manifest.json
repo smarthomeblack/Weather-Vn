@@ -1,12 +1,12 @@
 {
-  "domain": "weather_vn",
-  "name": "Weather Vn",
-  "version": "1.2.0",
-  "documentation": "https://github.com/smarthomeblack/Weather-Vn",
-  "dependencies": [],
   "codeowners": ["@smarthomeblack"],
-  "requirements": ["beautifulsoup4"],
-  "iot_class": "cloud_polling",
   "config_flow": true,
-  "import_executor": true
+  "dependencies": [],
+  "documentation": "https://github.com/smarthomeblack/Weather-Vn",
+  "domain": "weather_vn",
+  "import_executor": true,
+  "iot_class": "cloud_polling",
+  "name": "Weather Vn",
+  "requirements": ["beautifulsoup4"],
+  "version": "2025.7.26"
 } 
