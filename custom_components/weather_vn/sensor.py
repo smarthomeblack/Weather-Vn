@@ -1,4 +1,4 @@
-"""Sensor platform for Weather Vn integration."""
+"""Nền tảng cảm biến tích hợp Weather Vn."""
 from __future__ import annotations
 from dataclasses import dataclass
 import logging
@@ -37,13 +37,13 @@ def get_device_info(province: str, district: str) -> DeviceInfo:
         name=f"Thời tiết {district.capitalize()}",
         manufacturer="Smarthome Black",
         model="Weather Vn",
-        sw_version="2025.7.26",
+        sw_version="2025.7.27",
     )
 
 
 @dataclass
 class WeatherVnSensorEntityDescription(SensorEntityDescription):
-    """Class describing Weather Vn sensor entities."""
+    """Lớp mô tả các thực thể cảm biến Weather Vn."""
 
     unit_fn = None
 
@@ -173,7 +173,7 @@ SENSOR_TYPES: tuple[WeatherVnSensorEntityDescription, ...] = (
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ):
-    """Set up Weather Vn sensor entries."""
+    """Thiết lập mục nhập cảm biến Weather Vn."""
     province = entry.data.get(CONF_PROVINCE)
     district = entry.data.get(CONF_DISTRICT)
 
@@ -308,7 +308,7 @@ async def async_setup_entry(
 
 
 class WeatherVnSensor(CoordinatorEntity, SensorEntity):
-    """Implementation of a Weather Vn Sensor."""
+    """Triển khai cảm biến thời tiết."""
 
     entity_description: WeatherVnSensorEntityDescription
     _attr_has_entity_name = True
@@ -322,7 +322,7 @@ class WeatherVnSensor(CoordinatorEntity, SensorEntity):
         district: str,
         entry_id: str,
     ):
-        """Initialize the sensor."""
+        """Khởi tạo cảm biến."""
         super().__init__(coordinator)
         self.entity_description = description
         self._attr_unique_id = f"weathervn-{province}-{district}-{description.key}"
@@ -330,7 +330,7 @@ class WeatherVnSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        """Return the state of the sensor."""
+        """Trả về trạng thái của cảm biến."""
         if not self.coordinator.data:
             return None
 
@@ -363,7 +363,7 @@ class WeatherVnSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def extra_state_attributes(self):
-        """Return the state attributes."""
+        """Trả về các thuộc tính trạng thái."""
         if not self.coordinator.data:
             return {}
 
@@ -461,19 +461,15 @@ class WeatherVnForecastSensor(CoordinatorEntity, SensorEntity):
 
 
 class AirQualityDataUpdateCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching Weather Vn air quality data."""
+    """Lớp quản lý việc lấy dữ liệu chất lượng không khí"""
 
     def __init__(self, hass, province, district, config_entry):
         """Initialize."""
         scan_interval = DEFAULT_SCAN_INTERVAL
         if config_entry.options and CONF_SCAN_INTERVAL in config_entry.options:
             scan_interval = config_entry.options.get(CONF_SCAN_INTERVAL)
-            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật từ options: {scan_interval} phút")
         elif CONF_SCAN_INTERVAL in config_entry.data:
             scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL)
-            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật từ data: {scan_interval} phút")
-        else:
-            _LOGGER.DEBUG(f"Sử dụng thời gian cập nhật mặc định: {scan_interval} phút")
 
         self.data_service = WeatherVnDataService(province, district, scan_interval)
 
@@ -486,14 +482,12 @@ class AirQualityDataUpdateCoordinator(DataUpdateCoordinator):
         )
 
     async def _async_update_data(self):
-        """Update data via HTTP request."""
+        """Cập nhật dữ liệu qua yêu cầu HTTP."""
         try:
-            _LOGGER.DEBUG("Đang cập nhật dữ liệu mới...")
             # Luôn lấy dữ liệu mới, bỏ qua cache trong data_service
             self.data_service.cache_time = None
             self.data_service.cache_data = None
             data = await self.data_service.get_data()
-            _LOGGER.DEBUG("Cập nhật dữ liệu thành công!")
             return data
         except Exception as err:
             _LOGGER.error("Error while updating air quality data: %s", err)

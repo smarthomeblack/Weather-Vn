@@ -9,5 +9,5 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/smarthomeblack/Weather-Vn/issues",
   "requirements": ["beautifulsoup4"],
-  "version": "2025.7.26"
+  "version": "2025.7.27"
 } 

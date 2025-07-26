@@ -1,4 +1,4 @@
-"""Weather platform for Weather Vn integration."""
+"""Nền tảng thời tiết để tích hợp Weather Vn."""
 from datetime import timedelta, datetime
 import logging
 from typing import List, Optional
@@ -33,19 +33,14 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up Weather Vn weather based on config_entry."""
+    """Thiết lập thời tiết Weather Vn dựa trên config_entry."""
     province = entry.data.get(CONF_PROVINCE)
     district = entry.data.get(CONF_DISTRICT)
     scan_interval = DEFAULT_SCAN_INTERVAL
     if entry.options and CONF_SCAN_INTERVAL in entry.options:
         scan_interval = entry.options.get(CONF_SCAN_INTERVAL)
-        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật từ options: {scan_interval} phút")
     elif CONF_SCAN_INTERVAL in entry.data:
         scan_interval = entry.data.get(CONF_SCAN_INTERVAL)
-        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật từ data: {scan_interval} phút")
-    else:
-        _LOGGER.DEBUG(f"Weather: Thời gian cập nhật mặc định: {scan_interval} phút")
-
     weather = WeatherVnWeather(province, district, entry.entry_id)
     weather._data_service = WeatherVnDataService(province, district, scan_interval)
     weather._data_service.cache_duration = timedelta(minutes=1)
@@ -53,7 +48,7 @@ async def async_setup_entry(
 
 
 class WeatherVnWeather(WeatherEntity):
-    """Implementation of Weather Vn weather."""
+    """Triển khai dự báo thời tiết Weather Vn."""
 
     _attr_has_entity_name = True
     _attr_supported_features = (
@@ -66,7 +61,7 @@ class WeatherVnWeather(WeatherEntity):
     _attr_attribution = ATTRIBUTION
 
     def __init__(self, province: str, district: str, entry_id: str) -> None:
-        """Initialize Weather Vn weather."""
+        """Khởi tạo thời tiết Weather Vn."""
         self._province = province
         self._district = district
         self._entry_id = entry_id
@@ -78,14 +73,12 @@ class WeatherVnWeather(WeatherEntity):
         self._forecast_hourly = None
 
     async def async_update(self) -> None:
-        """Update current conditions."""
+        """Cập nhật tình hình hiện tại."""
         try:
             # Luôn lấy dữ liệu mới, không sử dụng cache
-            _LOGGER.DEBUG("Weather: Đang cập nhật dữ liệu thời tiết mới...")
             self._data_service.cache_data = None
             self._data_service.cache_time = None
             data = await self._data_service.get_data()
-            _LOGGER.DEBUG("Weather: Đã cập nhật dữ liệu thời tiết thành công")
             if not data:
                 return
 
@@ -113,12 +106,12 @@ class WeatherVnWeather(WeatherEntity):
 
     @property
     def forecast(self) -> Optional[List[Forecast]]:
-        """Return the forecast."""
+        """Trả lại dự báo."""
         return self.forecast_daily
 
     @property
     def forecast_daily(self) -> Optional[List[Forecast]]:
-        """Return daily forecast."""
+        """Trả về dự báo hàng ngày."""
         if not self._forecast_daily:
             return None
 
@@ -151,12 +144,12 @@ class WeatherVnWeather(WeatherEntity):
         return ha_forecasts
 
     async def async_forecast_daily(self) -> Optional[List[Forecast]]:
-        """Return daily forecast."""
+        """Trả về dự báo hàng ngày."""
         return self.forecast_daily
 
     @property
     def forecast_hourly(self) -> Optional[List[Forecast]]:
-        """Return hourly forecast."""
+        """Trả về dự báo hàng giờ."""
         if not self._forecast_hourly:
             return None
 
@@ -200,5 +193,5 @@ class WeatherVnWeather(WeatherEntity):
         return ha_forecasts
 
     async def async_forecast_hourly(self) -> Optional[List[Forecast]]:
-        """Return hourly forecast."""
+        """Trả về dự báo hàng giờ."""
         return self.forecast_hourly

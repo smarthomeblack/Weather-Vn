@@ -1,4 +1,4 @@
-"""Constants for Weather Vn integration."""
+"""Hằng số cho tích hợp Weather Vn."""
 import json
 import os
 from typing import Dict, Any
@@ -11,9 +11,9 @@ DOMAIN = "weather_vn"
 _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-# Đọc dữ liệu từ file JSON - phiên bản đồng bộ (an toàn cho executor)
+# Đọc dữ liệu từ file JSON - phiên bản đồng bộ
 def _load_json_data_sync(filename: str) -> Dict[str, Any]:
-    """Load data from JSON file (synchronous version, safe for executor)."""
+    """Tải dữ liệu từ tệp JSON."""
     file_path = os.path.join(_CURRENT_DIR, "data", filename)
     try:
         with open(file_path, "r", encoding="utf-8") as f:
@@ -25,13 +25,13 @@ def _load_json_data_sync(filename: str) -> Dict[str, Any]:
 
 # Đọc dữ liệu từ file JSON - phiên bản bất đồng bộ
 async def _load_json_data_async(hass: HomeAssistant, filename: str) -> Dict[str, Any]:
-    """Load data from JSON file (async version)."""
+    """Tải dữ liệu từ tệp JSON (phiên bản không đồng bộ)."""
     return await hass.async_add_executor_job(_load_json_data_sync, filename)
 
 
 # KHÔNG DÙNG phương thức đồng bộ trong config flow
 async def load_json_data(hass: HomeAssistant, filename: str) -> Dict[str, Any]:
-    """Load JSON data asynchronously."""
+    """Tải dữ liệu JSON không đồng bộ."""
     return await hass.async_add_executor_job(_load_json_data_sync, filename)
 
 

@@ -1,4 +1,4 @@
-"""Config flow for Weather Vn integration."""
+"""Luồng cấu hình để tích hợp Weather Vn."""
 import logging
 import voluptuous as vol
 from homeassistant import config_entries
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Weather Vn."""
+    """Xử lý luồng cấu hình cho Weather Vn."""
 
     VERSION = 1
 
@@ -29,23 +29,22 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def async_get_options_flow(
         config_entry: config_entries.ConfigEntry,
     ) -> config_entries.OptionsFlow:
-        """Create the options flow."""
+        """Tạo luồng tùy chọn."""
         return WeatherVnOptionsFlow(config_entry)
 
     def __init__(self):
-        """Initialize the config flow."""
+        """Khởi tạo luồng cấu hình."""
         self._province = None
         self._districts = {}
         self._scan_interval = DEFAULT_SCAN_INTERVAL
 
     async def async_step_user(self, user_input=None) -> FlowResult:
-        """Handle the initial step to select province."""
+        """Xử lý bước đầu tiên để chọn tỉnh."""
         errors = {}
 
         if user_input is not None:
             self._province = user_input[CONF_PROVINCE]
             self._scan_interval = user_input.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
-            _LOGGER.DEBUG(f"Đã chọn tỉnh {self._province} với thời gian cập nhật {self._scan_interval} phút")
             return await self.async_step_district()
 
         provinces_list = {k: v for k, v in PROVINCES.items()}
@@ -73,7 +72,7 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_district(self, user_input=None) -> FlowResult:
-        """Handle the district selection step."""
+        """Xử lý bước chọn quận."""
         errors = {}
 
         if user_input is not None:
@@ -116,14 +115,14 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class WeatherVnOptionsFlow(config_entries.OptionsFlow):
-    """Handle options flow for Weather Vn integration."""
+    """Xử lý luồng tùy chọn cho tích hợp Weather Vn."""
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        """Initialize options flow."""
+        """Khởi tạo luồng tùy chọn."""
         self._entry = config_entry
 
     async def async_step_init(self, user_input=None) -> FlowResult:
-        """Manage options."""
+        """Quản lý tùy chọn."""
         errors = {}
         current_scan_interval = self._entry.options.get(
             CONF_SCAN_INTERVAL,
@@ -138,7 +137,6 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
                     options = {
                         CONF_SCAN_INTERVAL: scan_interval,
                     }
-                    _LOGGER.DEBUG(f"Cập nhật thời gian cập nhật: {scan_interval} phút")
                     return self.async_create_entry(title="", data=options)
                 else:
                     errors[CONF_SCAN_INTERVAL] = "invalid_scan_interval"
