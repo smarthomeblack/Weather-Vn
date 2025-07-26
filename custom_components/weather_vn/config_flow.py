@@ -13,7 +13,6 @@ from .const import (
     CONF_DISTRICT,
     CONF_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
-    _load_json_data_sync,
     _load_json_data_async,
 )
 
@@ -46,6 +45,7 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             self._province = user_input[CONF_PROVINCE]
             self._scan_interval = user_input.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+            _LOGGER.info(f"Đã chọn tỉnh {self._province} với thời gian cập nhật {self._scan_interval} phút")
             return await self.async_step_district()
 
         provinces_list = {k: v for k, v in PROVINCES.items()}
@@ -89,41 +89,30 @@ class WeatherVnConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 data={
                     CONF_PROVINCE: province,
                     CONF_DISTRICT: district,
-                    CONF_SCAN_INTERVAL: self._scan_interval,  # Sử dụng giá trị đã chọn thay vì mặc định
+                    CONF_SCAN_INTERVAL: self._scan_interval,
                 },
             )
 
         # Lấy danh sách quận/huyện từ file JSON - sử dụng phiên bản async
-        province_districts = await self._get_districts_for_province(self._province)
+        provinces_data = await _load_json_data_async(self.hass, "provinces_districts.json")
+        province_data = provinces_data.get(self._province, {})
+        districts_dict = province_data.get("districts", {})
 
-        # Nếu không tìm thấy quận/huyện nào, hiển thị tất cả
-        if not province_districts:
-            available_districts = {k: v for k, v in DISTRICTS.items()}
-        else:
-            available_districts = province_districts
+        if not districts_dict:
+            # Nếu không có quận/huyện nào cho tỉnh này thì quay lại bước chọn tỉnh
+            return await self.async_step_user()
 
-        schema = vol.Schema(
-            {
-                vol.Required(CONF_DISTRICT): vol.In(available_districts),
-            }
-        )
+        districts_list = {}
+        for district_id, district_name in districts_dict.items():
+            districts_list[district_id] = district_name
 
         return self.async_show_form(
-            step_id="district", data_schema=schema, errors=errors
+            step_id="district",
+            data_schema=vol.Schema(
+                {vol.Required(CONF_DISTRICT): vol.In(districts_list)}
+            ),
+            errors=errors,
         )
-
-    async def _get_districts_for_province(self, province_id):
-        """Lấy danh sách quận/huyện của một tỉnh từ file JSON."""
-        try:
-            data = await _load_json_data_async(self.hass, "provinces_districts.json")
-            if province_id in data:
-                return data[province_id].get("districts", {})
-        except Exception:
-            # Nếu gặp lỗi khi đọc file bằng async, dùng phương thức đồng bộ backup
-            data = _load_json_data_sync("provinces_districts.json")
-            if province_id in data:
-                return data[province_id].get("districts", {})
-        return {}
 
 
 class WeatherVnOptionsFlow(config_entries.OptionsFlow):
@@ -131,31 +120,42 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        # Lưu config_entry để sử dụng sau này
-        self.config_entry = config_entry
-        # Lưu các dữ liệu cần thiết
-        self._entry_data = config_entry.data
-        self._province = None
-        self._scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+        # KHÔNG lưu trực tiếp config_entry - điều này đã bị deprecated
+        self._entry = config_entry
 
     async def async_step_init(self, user_input=None) -> FlowResult:
-        """Manage the options - first select province."""
+        """Manage options."""
+        errors = {}
+
+        # Lấy giá trị hiện tại từ options hoặc data
+        current_scan_interval = self._entry.options.get(
+            CONF_SCAN_INTERVAL,
+            self._entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+        )
+
         if user_input is not None:
-            self._province = user_input[CONF_PROVINCE]
-            self._scan_interval = user_input[CONF_SCAN_INTERVAL]
-            return await self.async_step_district()
+            try:
+                scan_interval = int(user_input[CONF_SCAN_INTERVAL])
+                if 5 <= scan_interval <= 180:
+                    # Chỉ lưu thời gian cập nhật vào options
+                    options = {
+                        CONF_SCAN_INTERVAL: scan_interval,
+                    }
+                    _LOGGER.info(f"Cập nhật thời gian cập nhật: {scan_interval} phút")
+                    return self.async_create_entry(title="", data=options)
+                else:
+                    errors[CONF_SCAN_INTERVAL] = "invalid_scan_interval"
+            except (ValueError, KeyError) as ex:
+                _LOGGER.error(f"Lỗi xử lý tùy chọn: {ex}")
+                errors["base"] = "unknown"
 
-        provinces_list = {k: v for k, v in PROVINCES.items()}
-
-        schema = vol.Schema(
-            {
-                vol.Required(
-                    CONF_PROVINCE,
-                    default=self._entry_data.get(CONF_PROVINCE),
-                ): vol.In(provinces_list),
+        # Hiển thị form
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema({
                 vol.Required(
                     CONF_SCAN_INTERVAL,
-                    default=self._scan_interval,
+                    default=current_scan_interval
                 ): selector.NumberSelector(
                     selector.NumberSelectorConfig(
                         min=5,
@@ -165,59 +165,9 @@ class WeatherVnOptionsFlow(config_entries.OptionsFlow):
                         unit_of_measurement="phút",
                     )
                 ),
+            }),
+            errors=errors,
+            description_placeholders={
+                "current_interval": f"{current_scan_interval}"
             }
         )
-
-        return self.async_show_form(
-            step_id="init", data_schema=schema
-        )
-
-    async def async_step_district(self, user_input=None) -> FlowResult:
-        """Handle the district selection in options."""
-        if user_input is not None:
-            # Tạo dữ liệu cấu hình mới với thời gian cập nhật
-            new_data = {
-                CONF_PROVINCE: self._province,
-                CONF_DISTRICT: user_input[CONF_DISTRICT],
-                CONF_SCAN_INTERVAL: self._scan_interval,
-            }
-            
-            _LOGGER.debug(f"Cập nhật cấu hình với thời gian cập nhật: {self._scan_interval} phút")
-            
-            # Sử dụng phương thức mặc định
-            return self.async_create_entry(title="", data=new_data)
-
-        # Lấy danh sách quận/huyện từ file JSON - sử dụng phiên bản async
-        province_districts = await self._get_districts_for_province(self._province)
-
-        # Nếu không tìm thấy quận/huyện nào, hiển thị tất cả
-        if not province_districts:
-            available_districts = {k: v for k, v in DISTRICTS.items()}
-        else:
-            available_districts = province_districts
-
-        schema = vol.Schema(
-            {
-                vol.Required(
-                    CONF_DISTRICT,
-                    default=self._entry_data.get(CONF_DISTRICT),
-                ): vol.In(available_districts),
-            }
-        )
-
-        return self.async_show_form(
-            step_id="district", data_schema=schema
-        )
-
-    async def _get_districts_for_province(self, province_id):
-        """Lấy danh sách quận/huyện của một tỉnh từ file JSON."""
-        try:
-            data = await _load_json_data_async(self.hass, "provinces_districts.json")
-            if province_id in data:
-                return data[province_id].get("districts", {})
-        except Exception:
-            # Nếu gặp lỗi khi đọc file bằng async, dùng phương thức đồng bộ backup
-            data = _load_json_data_sync("provinces_districts.json")
-            if province_id in data:
-                return data[province_id].get("districts", {})
-        return {}

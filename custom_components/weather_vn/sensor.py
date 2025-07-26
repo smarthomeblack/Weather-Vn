@@ -465,15 +465,24 @@ class AirQualityDataUpdateCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, province, district, config_entry):
         """Initialize."""
-        # Lấy thời gian cập nhật từ cấu hình (mặc định là 30 phút)
-        scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+        scan_interval = DEFAULT_SCAN_INTERVAL
+        if config_entry.options and CONF_SCAN_INTERVAL in config_entry.options:
+            scan_interval = config_entry.options.get(CONF_SCAN_INTERVAL)
+            _LOGGER.info(f"Sử dụng thời gian cập nhật từ options: {scan_interval} phút")
+        elif CONF_SCAN_INTERVAL in config_entry.data:
+            scan_interval = config_entry.data.get(CONF_SCAN_INTERVAL)
+            _LOGGER.info(f"Sử dụng thời gian cập nhật từ data: {scan_interval} phút")
+        else:
+            _LOGGER.info(f"Sử dụng thời gian cập nhật mặc định: {scan_interval} phút")
+
         self.data_service = WeatherVnDataService(province, district, scan_interval)
+
         super().__init__(
             hass,
             _LOGGER,
             name=f"{DOMAIN}-{province}-{district}-coordinator",
             update_interval=datetime.timedelta(minutes=scan_interval),
-            config_entry=config_entry,  # Truyền config_entry vào coordinator
+            config_entry=config_entry,
         )
 
     async def _async_update_data(self):

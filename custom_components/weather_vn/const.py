@@ -11,9 +11,9 @@ DOMAIN = "weather_vn"
 _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-# Đọc dữ liệu từ file JSON - phiên bản đồng bộ
+# Đọc dữ liệu từ file JSON - phiên bản đồng bộ (an toàn cho executor)
 def _load_json_data_sync(filename: str) -> Dict[str, Any]:
-    """Load data from JSON file (synchronous version)."""
+    """Load data from JSON file (synchronous version, safe for executor)."""
     file_path = os.path.join(_CURRENT_DIR, "data", filename)
     try:
         with open(file_path, "r", encoding="utf-8") as f:
@@ -29,14 +29,20 @@ async def _load_json_data_async(hass: HomeAssistant, filename: str) -> Dict[str,
     return await hass.async_add_executor_job(_load_json_data_sync, filename)
 
 
-# Phiên bản không async cho quá trình cài đặt ban đầu
-def _load_json_data(filename: str) -> Dict[str, Any]:
-    """Backward compatible method to load JSON data."""
-    return _load_json_data_sync(filename)
+# KHÔNG DÙNG phương thức đồng bộ trong config flow, sử dụng async_add_executor_job thay thế
+async def load_json_data(hass: HomeAssistant, filename: str) -> Dict[str, Any]:
+    """Load JSON data asynchronously."""
+    return await hass.async_add_executor_job(_load_json_data_sync, filename)
 
 
-# Đọc dữ liệu từ file provinces_districts.json
-_PROVINCES_DATA = _load_json_data_sync("provinces_districts.json")
+# Đọc dữ liệu từ file provinces_districts.json - CHỈ DÙNG KHI KHỞI TẠO MODULE
+_PROVINCES_DATA = {}
+try:
+    file_path = os.path.join(_CURRENT_DIR, "data", "provinces_districts.json")
+    with open(file_path, "r", encoding="utf-8") as f:
+        _PROVINCES_DATA = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    pass
 
 # Các thành phố/tỉnh hỗ trợ
 PROVINCES = {province_id: province_data["name"]

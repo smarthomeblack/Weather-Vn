@@ -23,19 +23,16 @@
   "options": {
     "step": {
       "init": {
-        "title": "Weather Vn - Cấu hình",
+        "title": "Cài đặt Weather Vn",
         "data": {
-          "province": "Tỉnh/Thành phố",
           "scan_interval": "Thời gian cập nhật (phút)"
         },
-        "description": "Cấu hình Weather Vn. Chọn tỉnh/thành phố và thiết lập thời gian cập nhật dữ liệu."
-      },
-      "district": {
-        "title": "Weather Vn - Chọn quận/huyện",
-        "data": {
-          "district": "Quận/Huyện"
-        }
+        "description": "Cài đặt thời gian cập nhật dữ liệu cho Weather Vn."
       }
+    },
+    "error": {
+      "invalid_scan_interval": "Thời gian cập nhật phải từ 5-180 phút",
+      "unknown": "Lỗi không xác định"
     }
   },
   "entity": {

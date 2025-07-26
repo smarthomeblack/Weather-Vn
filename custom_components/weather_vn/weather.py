@@ -36,7 +36,15 @@ async def async_setup_entry(
     """Set up Weather Vn weather based on config_entry."""
     province = entry.data.get(CONF_PROVINCE)
     district = entry.data.get(CONF_DISTRICT)
-    scan_interval = entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+    scan_interval = DEFAULT_SCAN_INTERVAL
+    if entry.options and CONF_SCAN_INTERVAL in entry.options:
+        scan_interval = entry.options.get(CONF_SCAN_INTERVAL)
+        _LOGGER.info(f"Weather: Thời gian cập nhật từ options: {scan_interval} phút")
+    elif CONF_SCAN_INTERVAL in entry.data:
+        scan_interval = entry.data.get(CONF_SCAN_INTERVAL)
+        _LOGGER.info(f"Weather: Thời gian cập nhật từ data: {scan_interval} phút")
+    else:
+        _LOGGER.info(f"Weather: Thời gian cập nhật mặc định: {scan_interval} phút")
     weather = WeatherVnWeather(province, district, entry.entry_id)
     # Thiết lập thời gian cập nhật từ cấu hình
     weather._data_service = WeatherVnDataService(province, district, scan_interval)
