@@ -1,0 +1,1158 @@
+{
+  "ha-giang": {
+    "name": "Hà Giang",
+    "districts": {
+      "thanh-pho-ha-giang": "Thành Phố Hà Giang",
+      "dong-van": "Đồng Văn",
+      "meo-vac": "Mèo Vạc",
+      "yen-minh": "Yên Minh",
+      "quan-ba": "Quản Bạ",
+      "vi-xuyen": "Vị Xuyên",
+      "bac-me": "Bắc Mê",
+      "hoang-su-phi": "Hoàng Su Phì",
+      "xin-man": "Xín Mần",
+      "bac-quang": "Bắc Quang",
+      "quang-binh": "Quang Bình"
+    }
+  },
+  "cao-bang": {
+    "name": "Cao Bằng",
+    "districts": {
+      "thanh-pho-cao-bang": "Thành Phố Cao Bằng",
+      "bao-lam": "Bảo Lâm",
+      "bao-lac": "Bảo Lạc",
+      "ha-quang": "Hà Quảng",
+      "trung-khanh": "Trùng Khánh",
+      "ha-lang": "Hạ Lang",
+      "quang-hoa": "Quảng Hòa",
+      "hoa-an": "Hoà An",
+      "nguyen-binh": "Nguyên Bình",
+      "thach-an": "Thạch An"
+    }
+  },
+  "bac-kan": {
+    "name": "Bắc Kạn",
+    "districts": {
+      "thanh-pho-bac-kan": "Thành Phố Bắc Kạn",
+      "pac-nam": "Pác Nặm",
+      "ba-be": "Ba Bể",
+      "ngan-son": "Ngân Sơn",
+      "bach-thong": "Bạch Thông",
+      "cho-don": "Chợ Đồn",
+      "cho-moi": "Chợ Mới",
+      "na-ri": "Na Rì"
+    }
+  },
+  "tuyen-quang": {
+    "name": "Tuyên Quang",
+    "districts": {
+      "thanh-pho-tuyen-quang": "Thành Phố Tuyên Quang",
+      "lam-binh": "Lâm Bình",
+      "na-hang": "Na Hang",
+      "chiem-hoa": "Chiêm Hóa",
+      "ham-yen": "Hàm Yên",
+      "yen-son": "Yên Sơn",
+      "son-duong": "Sơn Dương"
+    }
+  },
+  "thai-nguyen": {
+    "name": "Thái Nguyên",
+    "districts": {
+      "thanh-pho-thai-nguyen": "Thành Phố Thái Nguyên",
+      "song-cong": "Sông Công",
+      "dinh-hoa": "Định Hóa",
+      "phu-luong": "Phú Lương",
+      "dong-hy": "Đồng Hỷ",
+      "vo-nhai": "Võ Nhai",
+      "dai-tu": "Đại Từ",
+      "pho-yen": "Phổ Yên",
+      "phu-binh": "Phú Bình"
+    }
+  },
+  "lang-son": {
+    "name": "Lạng Sơn",
+    "districts": {
+      "thanh-pho-lang-son": "Thành Phố Lạng Sơn",
+      "trang-dinh": "Tràng Định",
+      "binh-gia": "Bình Gia",
+      "van-lang": "Văn Lãng",
+      "cao-loc": "Cao Lộc",
+      "van-quan": "Văn Quan",
+      "bac-son": "Bắc Sơn",
+      "huu-lung": "Hữu Lũng",
+      "chi-lang": "Chi Lăng",
+      "loc-binh": "Lộc Bình",
+      "dinh-lap": "Đình Lập"
+    }
+  },
+  "quang-ninh": {
+    "name": "Quảng Ninh",
+    "districts": {
+      "ha-long": "Hạ Long",
+      "mong-cai": "Móng Cái",
+      "cam-pha": "Cẩm Phả",
+      "uong-bi": "Uông Bí",
+      "binh-lieu": "Bình Liêu",
+      "tien-yen": "Tiên Yên",
+      "dam-ha": "Đầm Hà",
+      "hai-ha": "Hải Hà",
+      "ba-che": "Ba Chẽ",
+      "van-don": "Vân Đồn",
+      "dong-trieu": "Đông Triều",
+      "quang-yen": "Quảng Yên",
+      "co-to": "Cô Tô",
+      "bien-tra-co": "Biển Trà Cổ",
+      "bien-van-don": "Biển Vân Đồn",
+      "bien-bai-chay": "Biển Bãi Cháy",
+      "bien-tuan-chau": "Biển Tuần Châu",
+      "vinh-ha-long": "Vịnh Hạ Long"
+    }
+  },
+  "bac-giang": {
+    "name": "Bắc Giang",
+    "districts": {
+      "thanh-pho-bac-giang": "Thành Phố Bắc Giang",
+      "yen-the": "Yên Thế",
+      "tan-yen": "Tân Yên",
+      "lang-giang": "Lạng Giang",
+      "luc-nam": "Lục Nam",
+      "luc-ngan": "Lục Ngạn",
+      "son-dong": "Sơn Động",
+      "yen-dung": "Yên Dũng",
+      "viet-yen": "Việt Yên",
+      "hiep-hoa": "Hiệp Hòa"
+    }
+  },
+  "phu-tho": {
+    "name": "Phú Thọ",
+    "districts": {
+      "viet-tri": "Việt Trì",
+      "thi-xa-phu-tho": "Thị xã Phú Thọ",
+      "doan-hung": "Đoan Hùng",
+      "ha-hoa": "Hạ Hoà",
+      "thanh-ba": "Thanh Ba",
+      "phu-ninh": "Phù Ninh",
+      "yen-lap": "Yên Lập",
+      "cam-khe": "Cẩm Khê",
+      "tam-nong": "Tam Nông",
+      "lam-thao": "Lâm Thao",
+      "thanh-son": "Thanh Sơn",
+      "thanh-thuy": "Thanh Thuỷ",
+      "tan-son": "Tân Sơn"
+    }
+  },
+  "lao-cai": {
+    "name": "Lào Cai",
+    "districts": {
+      "sapa": "Sapa",
+      "thanh-pho-lao-cai": "Thành Phố Lào Cai",
+      "bat-xat": "Bát Xát",
+      "muong-khuong": "Mường Khương",
+      "si-ma-cai": "Si Ma Cai",
+      "bac-ha": "Bắc Hà",
+      "bao-thang": "Bảo Thắng",
+      "bao-yen": "Bảo Yên",
+      "van-ban": "Văn Bàn",
+      "nui-nam-kang-ho-tao": "Núi Nam Kang Ho Tao",
+      "nui-phu-hoi-nam": "Núi Phu Hoi Nam",
+      "nui-ta-xa": "Núi Ta Xa",
+      "nui-ho-tao-san": "Núi Ho Tao San"
+    }
+  },
+  "dien-bien": {
+    "name": "Điện Biên",
+    "districts": {
+      "dien-bien-phu": "Điện Biên Phủ",
+      "thi-xa-muong-lay": "Thị xã Mường Lay",
+      "muong-nhe": "Mường Nhé",
+      "muong-cha": "Mường Chà",
+      "tua-chua": "Tủa Chùa",
+      "tuan-giao": "Tuần Giáo",
+      "dien-bien": "Điện Biên",
+      "dien-bien-dong": "Điện Biên Đông",
+      "muong-ang": "Mường Ảng",
+      "nam-po": "Nậm Pồ"
+    }
+  },
+  "lai-chau": {
+    "name": "Lai Châu",
+    "districts": {
+      "thanh-pho-lai-chau": "Thành Phố Lai Châu",
+      "tam-duong": "Tam Đường",
+      "muong-te": "Mường Tè",
+      "sin-ho": "Sìn Hồ",
+      "phong-tho": "Phong Thổ",
+      "than-uyen": "Than Uyên",
+      "tan-uyen": "Tân Uyên",
+      "nam-nhun": "Nậm Nhùn",
+      "dinh-fansipan": "Đỉnh Fansipan",
+      "nui-ta-lien": "Núi Tả Liên",
+      "nui-phu-si-lung": "Núi Phu Si Lùng",
+      "nui-phu-kho-luong": "Núi Phu Kho Lường",
+      "nui-phu-nam-ha": "Núi Phu Nằm Hạ",
+      "nui-niu-co-san": "Núi Nìu Cò San",
+      "nui-phu-nam-cau": "Núi Phu Nằm Cấu",
+      "nui-fan-si-pan": "Núi Fan Si Pan",
+      "nui-phu-ba": "Núi Phu Ba",
+      "nui-phu-mu-su-cang": "Núi Phu Mu Su Cằng",
+      "nui-phu-talen-po": "Núi Phu Talen Pỏ",
+      "nui-tao-phoung-chan": "Núi Tao Phoung Chan",
+      "nui-tou-san": "Núi Tou San",
+      "nui-phu-xong": "Núi Phu Xong",
+      "nui-phu-khe-lo": "Núi Phu Khé Ló",
+      "nui-phu-long-me": "Núi Phu Lông Mê",
+      "phu-khao-pha": "Phu Khao Pha",
+      "nui-phou-sam-tie": "Núi Phou Sam Tié",
+      "nui-bi-doup": "Núi Bi Doup",
+      "nui-phu-nam-khao": "Núi Phu Nằm Khao"
+    }
+  },
+  "son-la": {
+    "name": "Sơn La",
+    "districts": {
+      "thanh-pho-son-la": "Thành Phố Sơn La",
+      "quynh-nhai": "Quỳnh Nhai",
+      "thuan-chau": "Thuận Châu",
+      "muong-la": "Mường La",
+      "bac-yen": "Bắc Yên",
+      "phu-yen": "Phù Yên",
+      "moc-chau": "Mộc Châu",
+      "yen-chau": "Yên Châu",
+      "mai-son": "Mai Sơn",
+      "song-ma": "Sông Mã",
+      "sop-cop": "Sốp Cộp",
+      "van-ho": "Vân Hồ",
+      "nui-phu-sa-phin": "Núi Phu Sa Phin",
+      "nui-mang-han-san": "Núi Mang Han San",
+      "nui-phu-cicouya": "Núi Phu Cicouya",
+      "nui-phu-nam-sau": "Núi Phu Nằm Sau"
+    }
+  },
+  "yen-bai": {
+    "name": "Yên Bái",
+    "districts": {
+      "thanh-pho-yen-bai": "Thành Phố Yên Bái",
+      "nghia-lo": "Nghĩa Lộ",
+      "luc-yen": "Lục Yên",
+      "van-yen": "Văn Yên",
+      "mu-cang-chai": "Mù Căng Chải",
+      "tran-yen": "Trấn Yên",
+      "tram-tau": "Trạm Tấu",
+      "van-chan": "Văn Chấn",
+      "yen-binh": "Yên Bình",
+      "nui-lang-cung": "Núi Lang Cung",
+      "nui-phu-luong": "Núi Phu Lương",
+      "nui-hoang-lien-son": "Núi Hoàng Liên Sơn",
+      "nui-phu-tien-van": "Núi Phu Tien Van"
+    }
+  },
+  "hoa-binh": {
+    "name": "Hoà Bình",
+    "districts": {
+      "thanh-pho-hoa-binh": "Thành Phố Hòa Bình",
+      "da-bac": "Đà Bắc",
+      "luong-son": "Lương Sơn",
+      "kim-boi": "Kim Bôi",
+      "cao-phong": "Cao Phong",
+      "tan-lac": "Tân Lạc",
+      "mai-chau": "Mai Châu",
+      "lac-son": "Lạc Sơn",
+      "yen-thuy": "Yên Thủy",
+      "lac-thuy": "Lạc Thủy"
+    }
+  },
+  "ha-noi": {
+    "name": "Hà Nội",
+    "districts": {
+      "ba-dinh": "Ba Đình",
+      "hoan-kiem": "Hoàn Kiếm",
+      "tay-ho": "Tây Hồ",
+      "long-bien": "Long Biên",
+      "cau-giay": "Cầu Giấy",
+      "dong-da": "Đống Đa",
+      "hai-ba-trung": "Hai Bà Trưng",
+      "hoang-mai": "Hoàng Mai",
+      "thanh-xuan": "Thanh Xuân",
+      "soc-son": "Sóc Sơn",
+      "dong-anh": "Đông Anh",
+      "gia-lam": "Gia Lâm",
+      "nam-tu-liem": "Nam Từ Liêm",
+      "thanh-tri": "Thanh Trì",
+      "bac-tu-liem": "Bắc Từ Liêm",
+      "me-linh": "Mê Linh",
+      "ha-dong": "Hà Đông",
+      "son-tay": "Sơn Tây",
+      "ba-vi": "Ba Vì",
+      "phuc-tho": "Phúc Thọ",
+      "dan-phuong": "Đan Phượng",
+      "hoai-duc": "Hoài Đức",
+      "quoc-oai": "Quốc Oai",
+      "thach-that": "Thạch Thất",
+      "chuong-my": "Chương Mỹ",
+      "thanh-oai": "Thanh Oai",
+      "thuong-tin": "Thường Tín",
+      "phu-xuyen": "Phú Xuyên",
+      "ung-hoa": "Ứng Hòa",
+      "my-duc": "Mỹ Đức"
+    }
+  },
+  "vinh-phuc": {
+    "name": "Vĩnh Phúc",
+    "districts": {
+      "vinh-yen": "Vĩnh Yên",
+      "phuc-yen": "Phúc Yên",
+      "lap-thach": "Lập Thạch",
+      "tam-duong": "Tam Dương",
+      "tam-dao": "Tam Đảo",
+      "binh-xuyen": "Bình Xuyên",
+      "yen-lac": "Yên Lạc",
+      "vinh-tuong": "Vĩnh Tường",
+      "song-lo": "Sông Lô"
+    }
+  },
+  "bac-ninh": {
+    "name": "Bắc Ninh",
+    "districts": {
+      "thanh-pho-bac-ninh": "Thành Phố Bắc Ninh",
+      "yen-phong": "Yên Phong",
+      "que-vo": "Quế Võ",
+      "tien-du": "Tiên Du",
+      "tu-son": "Từ Sơn",
+      "thuan-thanh": "Thuận Thành",
+      "gia-binh": "Gia Bình",
+      "luong-tai": "Lương Tài"
+    }
+  },
+  "hai-duong": {
+    "name": "Hải Dương",
+    "districts": {
+      "thanh-pho-hai-duong": "Thành Phố Hải Dương",
+      "chi-linh": "Chí Linh",
+      "nam-sach": "Nam Sách",
+      "thi-xa-kinh-mon": "Thị xã Kinh Môn",
+      "kim-thanh": "Kim Thành",
+      "thanh-ha": "Thanh Hà",
+      "cam-giang": "Cẩm Giàng",
+      "binh-giang": "Bình Giang",
+      "gia-loc": "Gia Lộc",
+      "tu-ky": "Tứ Kỳ",
+      "ninh-giang": "Ninh Giang",
+      "thanh-mien": "Thanh Miện"
+    }
+  },
+  "hai-phong": {
+    "name": "Hải Phòng",
+    "districts": {
+      "hong-bang": "Hồng Bàng",
+      "ngo-quyen": "Ngô Quyền",
+      "le-chan": "Lê Chân",
+      "hai-an": "Hải An",
+      "kien-an": "Kiến An",
+      "do-son": "Đồ Sơn",
+      "duong-kinh": "Dương Kinh",
+      "thuy-nguyen": "Thuỷ Nguyên",
+      "an-duong": "An Dương",
+      "an-lao": "An Lão",
+      "kien-thuy": "Kiến Thuỵ",
+      "tien-lang": "Tiên Lãng",
+      "vinh-bao": "Vĩnh Bảo",
+      "cat-hai": "Cát Hải",
+      "bach-long-vi": "Bạch Long Vĩ",
+      "bien-cat-ba": "Biển Cát Bà",
+      "bien-do-son": "Biển Đồ Sơn",
+      "bien-hon-dau": "Biển Hòn Dáu"
+    }
+  },
+  "hung-yen": {
+    "name": "Hưng Yên",
+    "districts": {
+      "thanh-pho-hung-yen": "Thành Phố Hưng Yên",
+      "van-lam": "Văn Lâm",
+      "van-giang": "Văn Giang",
+      "yen-my": "Yên Mỹ",
+      "thi-xa-my-hao": "Thị xã Mỹ Hào",
+      "an-thi": "Ân Thi",
+      "khoai-chau": "Khoái Châu",
+      "kim-dong": "Kim Động",
+      "tien-lu": "Tiên Lữ",
+      "phu-cu": "Phù Cừ"
+    }
+  },
+  "thai-binh": {
+    "name": "Thái Bình",
+    "districts": {
+      "thanh-pho-thai-binh": "Thành Phố Thái Bình",
+      "quynh-phu": "Quỳnh Phụ",
+      "hung-ha": "Hưng Hà",
+      "dong-hung": "Đông Hưng",
+      "thai-thuy": "Thái Thụy",
+      "tien-hai": "Tiền Hải",
+      "kien-xuong": "Kiến Xương",
+      "vu-thu": "Vũ Thư",
+      "bien-dong-chau": "Biển Đồng Châu"
+    }
+  },
+  "ha-nam": {
+    "name": "Hà Nam",
+    "districts": {
+      "phu-ly": "Phủ Lý",
+      "thi-xa-duy-tien": "Thị xã Duy Tiên",
+      "kim-bang": "Kim Bảng",
+      "thanh-liem": "Thanh Liêm",
+      "binh-luc": "Bình Lục",
+      "ly-nhan": "Lý Nhân"
+    }
+  },
+  "nam-dinh": {
+    "name": "Nam Định",
+    "districts": {
+      "thanh-pho-nam-dinh": "Thành Phố Nam Định",
+      "my-loc": "Mỹ Lộc",
+      "vu-ban": "Vụ Bản",
+      "y-yen": "Ý Yên",
+      "nghia-hung": "Nghĩa Hưng",
+      "nam-truc": "Nam Trực",
+      "truc-ninh": "Trực Ninh",
+      "xuan-truong": "Xuân Trường",
+      "giao-thuy": "Giao Thủy",
+      "hai-hau": "Hải Hậu",
+      "bien-quat-lam": "Biển Quất Lâm",
+      "bien-hai-thinh": "Biển Hải Thịnh"
+    }
+  },
+  "ninh-binh": {
+    "name": "Ninh Bình",
+    "districts": {
+      "thanh-pho-ninh-binh": "Thành Phố Ninh Bình",
+      "tam-diep": "Tam Điệp",
+      "nho-quan": "Nho Quan",
+      "gia-vien": "Gia Viễn",
+      "hoa-lu": "Hoa Lư",
+      "yen-khanh": "Yên Khánh",
+      "kim-son": "Kim Sơn",
+      "yen-mo": "Yên Mô",
+      "bien-bai-ngang": "Biển Bãi Ngang",
+      "bien-con-noi": "Biển Cồn Nổi"
+    }
+  },
+  "thanh-hoa": {
+    "name": "Thanh Hóa",
+    "districts": {
+      "thanh-pho-thanh-hoa": "Thành Phố Thanh Hóa",
+      "thi-xa-bim-son": "Thị xã Bỉm Sơn",
+      "sam-son": "Sầm Sơn",
+      "muong-lat": "Mường Lát",
+      "quan-hoa": "Quan Hóa",
+      "ba-thuoc": "Bá Thước",
+      "quan-son": "Quan Sơn",
+      "lang-chanh": "Lang Chánh",
+      "ngoc-lac": "Ngọc Lặc",
+      "cam-thuy": "Cẩm Thủy",
+      "thach-thanh": "Thạch Thành",
+      "ha-trung": "Hà Trung",
+      "vinh-loc": "Vĩnh Lộc",
+      "yen-dinh": "Yên Định",
+      "tho-xuan": "Thọ Xuân",
+      "thuong-xuan": "Thường Xuân",
+      "trieu-son": "Triệu Sơn",
+      "thieu-hoa": "Thiệu Hóa",
+      "hoang-hoa": "Hoằng Hóa",
+      "hau-loc": "Hậu Lộc",
+      "nga-son": "Nga Sơn",
+      "nhu-xuan": "Như Xuân",
+      "nhu-thanh": "Như Thanh",
+      "nong-cong": "Nông Cống",
+      "dong-son": "Đông Sơn",
+      "quang-xuong": "Quảng Xương",
+      "thi-xa-nghi-son": "Thị xã Nghi Sơn",
+      "bien-hai-tien": "Biển Hải Tiến",
+      "bien-sam-son": "Biển Sầm Sơn",
+      "bien-tien-trang": "Biển Tiên Trang",
+      "bien-hai-hoa": "Biển Hải Hòa",
+      "bien-nghi-son": "Biển Nghi Sơn"
+    }
+  },
+  "nghe-an": {
+    "name": "Nghệ An",
+    "districts": {
+      "vinh": "Vinh",
+      "thi-xa-cua-lo": "Thị xã Cửa Lò",
+      "thi-xa-thai-hoa": "Thị xã Thái Hoà",
+      "que-phong": "Quế Phong",
+      "quy-chau": "Quỳ Châu",
+      "ky-son": "Kỳ Sơn",
+      "tuong-duong": "Tương Dương",
+      "nghia-dan": "Nghĩa Đàn",
+      "quy-hop": "Quỳ Hợp",
+      "quynh-luu": "Quỳnh Lưu",
+      "con-cuong": "Con Cuông",
+      "tan-ky": "Tân Kỳ",
+      "anh-son": "Anh Sơn",
+      "dien-chau": "Diễn Châu",
+      "yen-thanh": "Yên Thành",
+      "do-luong": "Đô Lương",
+      "thanh-chuong": "Thanh Chương",
+      "nghi-loc": "Nghi Lộc",
+      "nam-dan": "Nam Đàn",
+      "hung-nguyen": "Hưng Nguyên",
+      "thi-xa-hoang-mai": "Thị xã Hoàng Mai",
+      "nui-phu-xai-lai-leng": "Núi Phu Xai Lai Leng",
+      "nui-phu-tra": "Núi Phu Tra",
+      "nui-phu-ban": "Núi Phu Ban",
+      "nui-sinh-tcha-pao": "Núi Sinh Tcha Pao",
+      "bien-quynh": "Biển Quỳnh",
+      "bien-dien-quynh": "Biển Diễn Quỳnh",
+      "bien-dien-thanh": "Biển Diễn Thành",
+      "bien-nghi-thiet": "Biển Nghi Thiết",
+      "bien-cua-lo": "Biển Cửa Lò"
+    }
+  },
+  "ha-tinh": {
+    "name": "Hà Tĩnh",
+    "districts": {
+      "thanh-pho-ha-tinh": "Thành Phố Hà Tĩnh",
+      "thi-xa-hong-linh": "Thị xã Hồng Lĩnh",
+      "huong-son": "Hương Sơn",
+      "duc-tho": "Đức Thọ",
+      "vu-quang": "Vũ Quang",
+      "nghi-xuan": "Nghi Xuân",
+      "can-loc": "Can Lộc",
+      "huong-khe": "Hương Khê",
+      "thach-ha": "Thạch Hà",
+      "cam-xuyen": "Cẩm Xuyên",
+      "ky-anh": "Kỳ Anh",
+      "loc-ha": "Lộc Hà",
+      "thi-xa-ky-anh": "Thị xã Kỳ Anh",
+      "bien-xuan-yen": "Biển Xuân Yên",
+      "bien-xuan-thanh": "Biển Xuân Thành",
+      "bien-cua-sot": "Biển Cửa Sót",
+      "bien-thach-bang": "Biển Thạch Bằng",
+      "bien-thien-cam": "Biển Thiên Cầm",
+      "bien-deo-con": "Biển Đèo Con"
+    }
+  },
+  "quang-binh": {
+    "name": "Quảng Bình",
+    "districts": {
+      "dong-hoi": "Đồng Hới",
+      "minh-hoa": "Minh Hóa",
+      "tuyen-hoa": "Tuyên Hóa",
+      "quang-trach": "Quảng Trạch",
+      "bo-trach": "Bố Trạch",
+      "quang-ninh": "Quảng Ninh",
+      "le-thuy": "Lệ Thủy",
+      "thi-xa-ba-don": "Thị xã Ba Đồn",
+      "bien-da-nhay": "Biển Đá Nhảy",
+      "bien-nhat-le": "Biển Nhật Lệ",
+      "bien-bao-ninh": "Biển Bảo Ninh"
+    }
+  },
+  "quang-tri": {
+    "name": "Quảng Trị",
+    "districts": {
+      "dong-ha": "Đông Hà",
+      "thi-xa-quang-tri": "Thị xã Quảng Trị",
+      "vinh-linh": "Vĩnh Linh",
+      "huong-hoa": "Hướng Hóa",
+      "gio-linh": "Gio Linh",
+      "da-krong": "Đa Krông",
+      "cam-lo": "Cam Lộ",
+      "trieu-phong": "Triệu Phong",
+      "hai-lang": "Hải Lăng",
+      "con-co": "Cồn Cỏ",
+      "bien-cua-viet": "Biển Cửa Việt",
+      "bien-con-co": "Biển Cồn Cỏ",
+      "bien-my-thuy": "Biển Mỹ Thuỷ"
+    }
+  },
+  "hue": {
+    "name": "Huế",
+    "districts": {
+      "thanh-pho-hue": "Thành phố Huế",
+      "phong-dien": "Phong Điền",
+      "quang-dien": "Quảng Điền",
+      "phu-vang": "Phú Vang",
+      "thi-xa-huong-thuy": "Thị xã Hương Thủy",
+      "thi-xa-huong-tra": "Thị xã Hương Trà",
+      "a-luoi": "A Lưới",
+      "phu-loc": "Phú Lộc",
+      "nam-dong": "Nam Đông",
+      "bien-thuan-an": "Biển Thuận An",
+      "bien-chan-may": "Biển Chân Mây",
+      "bien-lang-co": "Biển Lăng Cô"
+    }
+  },
+  "da-nang": {
+    "name": "Đà Nẵng",
+    "districts": {
+      "lien-chieu": "Liên Chiểu",
+      "thanh-khe": "Thanh Khê",
+      "hai-chau": "Hải Châu",
+      "son-tra": "Sơn Trà",
+      "ngu-hanh-son": "Ngũ Hành Sơn",
+      "cam-le": "Cẩm Lệ",
+      "hoa-vang": "Hòa Vang",
+      "hoang-sa": "Hoàng Sa",
+      "bien-hai-van": "Biển Hải Vân",
+      "bien-son-tra": "Biển Sơn Trà",
+      "bien-bai-but": "Biển Bãi Bụt",
+      "bien-bai-rang": "Biển Bãi Rạng",
+      "bien-my-khe-da-nang": "Biển Mỹ Khê - Đà Nẵng",
+      "bien-thanh-binh": "Biển Thanh Bình"
+    }
+  },
+  "quang-nam": {
+    "name": "Quảng Nam",
+    "districts": {
+      "tam-ky": "Tam Kỳ",
+      "hoi-an": "Hội An",
+      "tay-giang": "Tây Giang",
+      "dong-giang": "Đông Giang",
+      "dai-loc": "Đại Lộc",
+      "thi-xa-dien-ban": "Thị xã Điện Bàn",
+      "duy-xuyen": "Duy Xuyên",
+      "que-son": "Quế Sơn",
+      "nam-giang": "Nam Giang",
+      "phuoc-son": "Phước Sơn",
+      "hiep-duc": "Hiệp Đức",
+      "thang-binh": "Thăng Bình",
+      "tien-phuoc": "Tiên Phước",
+      "bac-tra-my": "Bắc Trà My",
+      "nam-tra-my": "Nam Trà My",
+      "nui-thanh": "Núi Thành",
+      "phu-ninh": "Phú Ninh",
+      "nong-son": "Nông Sơn",
+      "bien-ha-my": "Biển Hà My",
+      "bien-cua-dai": "Biển Cửa Đại",
+      "bien-cu-lao-cham": "Biển Cù Lao Chàm"
+    }
+  },
+  "quang-ngai": {
+    "name": "Quảng Ngãi",
+    "districts": {
+      "thanh-pho-quang-ngai": "Thành Phố Quảng Ngãi",
+      "binh-son": "Bình Sơn",
+      "tra-bong": "Trà Bồng",
+      "son-tinh": "Sơn Tịnh",
+      "tu-nghia": "Tư Nghĩa",
+      "son-ha": "Sơn Hà",
+      "son-tay": "Sơn Tây",
+      "minh-long": "Minh Long",
+      "nghia-hanh": "Nghĩa Hành",
+      "mo-duc": "Mộ Đức",
+      "thi-xa-duc-pho": "Thị xã Đức Phổ",
+      "ba-to": "Ba Tơ",
+      "ly-son": "Lý Sơn",
+      "bien-my-khe-quang-ngai": "Biển Mỹ Khê - Quảng Ngãi",
+      "bien-sa-huynh": "Biển Sa Huỳnh"
+    }
+  },
+  "binh-dinh": {
+    "name": "Bình Định",
+    "districts": {
+      "quy-nhon": "Quy Nhơn",
+      "an-lao": "An Lão",
+      "thi-xa-hoai-nhon": "Thị xã Hoài Nhơn",
+      "hoai-an": "Hoài Ân",
+      "phu-my": "Phù Mỹ",
+      "vinh-thanh": "Vĩnh Thạnh",
+      "tay-son": "Tây Sơn",
+      "phu-cat": "Phù Cát",
+      "thi-xa-an-nhon": "Thị xã An Nhơn",
+      "tuy-phuoc": "Tuy Phước",
+      "van-canh": "Vân Canh",
+      "bien-bai-dai-binh-dinh": "Biển Bãi Dài - Bình Định",
+      "bien-bai-dai": "Biển Bãi Dại",
+      "bien-bai-xep": "Biển Bãi Xép",
+      "bien-nhon-ly": "Biển Nhơn Lý"
+    }
+  },
+  "phu-yen": {
+    "name": "Phú Yên",
+    "districts": {
+      "tuy-hoa": "Tuy Hoà",
+      "thi-xa-song-cau": "Thị xã Sông Cầu",
+      "dong-xuan": "Đồng Xuân",
+      "tuy-an": "Tuy An",
+      "son-hoa": "Sơn Hòa",
+      "song-hinh": "Sông Hinh",
+      "tay-hoa": "Tây Hoà",
+      "phu-hoa": "Phú Hoà",
+      "thi-xa-dong-hoa": "Thị xã Đông Hòa"
+    }
+  },
+  "khanh-hoa": {
+    "name": "Khánh Hoà",
+    "districts": {
+      "nha-trang": "Nha Trang",
+      "cam-ranh": "Cam Ranh",
+      "cam-lam": "Cam Lâm",
+      "van-ninh": "Vạn Ninh",
+      "thi-xa-ninh-hoa": "Thị xã Ninh Hòa",
+      "khanh-vinh": "Khánh Vĩnh",
+      "dien-khanh": "Diên Khánh",
+      "khanh-son": "Khánh Sơn",
+      "truong-sa": "Trường Sa",
+      "vinh-ninh-van": "Vịnh Ninh Vân",
+      "bien-bai-dai-khanh-hoa": "Biển Bãi Dài - Khánh Hòa",
+      "bien-hon-ong": "Biển Hòn Ông",
+      "bien-son-dung": "Biển Sơn Đừng",
+      "bien-dai-lanh": "Biển Đại Lãnh",
+      "bien-doc-let": "Biển Dốc Lết",
+      "bien-ninh-van": "Biển Ninh Vân",
+      "bien-hon-chong": "Biển Hòn Chồng",
+      "bien-nha-trang": "Biển Nha Trang",
+      "bien-bai-dong": "Biển Bãi Dông",
+      "bien-binh-lap": "Biển Bình Lập",
+      "bien-hon-tre": "Biển Hòn Tre",
+      "bien-hon-tam": "Biển Hòn Tằm",
+      "bien-hon-thi": "Biển Hòn Thị",
+      "bien-hon-lao": "Biển Hòn Lao"
+    }
+  },
+  "ninh-thuan": {
+    "name": "Ninh Thuận",
+    "districts": {
+      "phan-rang-thap-cham": "Phan Rang-Tháp Chàm",
+      "bac-ai": "Bác Ái",
+      "ninh-son": "Ninh Sơn",
+      "ninh-hai": "Ninh Hải",
+      "ninh-phuoc": "Ninh Phước",
+      "thuan-bac": "Thuận Bắc",
+      "thuan-nam": "Thuận Nam",
+      "bien-ca-na": "Biển Cà Ná",
+      "bien-ninh-hai": "Biển Ninh Hải",
+      "bien-thai-binh": "Biển Thái Bình"
+    }
+  },
+  "binh-thuan": {
+    "name": "Bình Thuận",
+    "districts": {
+      "phan-thiet": "Phan Thiết",
+      "thi-xa-la-gi": "Thị xã La Gi",
+      "tuy-phong": "Tuy Phong",
+      "bac-binh": "Bắc Bình",
+      "ham-thuan-bac": "Hàm Thuận Bắc",
+      "ham-thuan-nam": "Hàm Thuận Nam",
+      "tanh-linh": "Tánh Linh",
+      "duc-linh": "Đức Linh",
+      "ham-tan": "Hàm Tân",
+      "phu-qui": "Phú Quí",
+      "bien-mui-ne": "Biển Mũi Né",
+      "bien-hon-rom": "Biển Hòn Rơm",
+      "bien-doi-duong": "Biển Đồi Dương",
+      "bien-mui-ke-ga": "Biển Mũi Kê Gà",
+      "bien-thuan-quy": "Biển Thuận Quý"
+    }
+  },
+  "kon-tum": {
+    "name": "Kon Tum",
+    "districts": {
+      "thanh-pho-kon-tum": "Thành Phố Kon Tum",
+      "dak-glei": "Đắk Glei",
+      "ngoc-hoi": "Ngọc Hồi",
+      "dak-to": "Đắk Tô",
+      "kon-plong": "Kon Plông",
+      "kon-ray": "Kon Rẫy",
+      "dak-ha": "Đắk Hà",
+      "sa-thay": "Sa Thầy",
+      "tu-mo-rong": "Tu Mơ Rông",
+      "ia-h-drai": "Ia H' Drai"
+    }
+  },
+  "gia-lai": {
+    "name": "Gia Lai",
+    "districts": {
+      "pleiku": "Pleiku",
+      "thi-xa-an-khe": "Thị xã An Khê",
+      "thi-xa-ayun-pa": "Thị xã Ayun Pa",
+      "kbang": "KBang",
+      "dak-doa": "Đăk Đoa",
+      "chu-pah": "Chư Păh",
+      "ia-grai": "Ia Grai",
+      "mang-yang": "Mang Yang",
+      "kong-chro": "Kông Chro",
+      "duc-co": "Đức Cơ",
+      "chu-prong": "Chư Prông",
+      "chu-se": "Chư Sê",
+      "dak-po": "Đăk Pơ",
+      "ia-pa": "Ia Pa",
+      "krong-pa": "Krông Pa",
+      "phu-thien": "Phú Thiện",
+      "chu-puh": "Chư Pưh"
+    }
+  },
+  "dak-lak": {
+    "name": "Đắk Lắk",
+    "districts": {
+      "buon-ma-thuot": "Buôn Ma Thuột",
+      "thi-xa-buon-ho": "Thị xã Buôn Hồ",
+      "ea-h-leo": "Ea H'leo",
+      "ea-sup": "Ea Súp",
+      "buon-don": "Buôn Đôn",
+      "cu-m-gar": "Cư M'gar",
+      "krong-buk": "Krông Búk",
+      "krong-nang": "Krông Năng",
+      "ea-kar": "Ea Kar",
+      "m-drak": "M'Đrắk",
+      "krong-bong": "Krông Bông",
+      "krong-pac": "Krông Pắc",
+      "krong-a-na": "Krông A Na",
+      "lak": "Lắk",
+      "cu-kuin": "Cư Kuin",
+      "nui-chu-yang-sin": "Núi Chư Yang Sin",
+      "nui-phu-kho-ma": "Núi Phu Kho Ma",
+      "nui-phou-tong-chinh": "Núi Phou Tong Chinh",
+      "nui-khao-pha": "Núi Khao Pha"
+    }
+  },
+  "dak-nong": {
+    "name": "Đắk Nông",
+    "districts": {
+      "gia-nghia": "Gia Nghĩa",
+      "dak-glong": "Đăk Glong",
+      "cu-jut": "Cư Jút",
+      "dak-mil": "Đắk Mil",
+      "krong-no": "Krông Nô",
+      "dak-song": "Đắk Song",
+      "dak-r-lap": "Đắk R'Lấp",
+      "tuy-duc": "Tuy Đức"
+    }
+  },
+  "lam-dong": {
+    "name": "Lâm Đồng",
+    "districts": {
+      "bao-loc": "Bảo Lộc",
+      "dam-rong": "Đam Rông",
+      "lac-duong": "Lạc Dương",
+      "lam-ha": "Lâm Hà",
+      "don-duong": "Đơn Dương",
+      "duc-trong": "Đức Trọng",
+      "di-linh": "Di Linh",
+      "bao-lam": "Bảo Lâm",
+      "da-huoai": "Đạ Huoai",
+      "da-teh": "Đạ Tẻh",
+      "cat-tien": "Cát Tiên",
+      "da-lat": "Đà Lạt"
+    }
+  },
+  "binh-phuoc": {
+    "name": "Bình Phước",
+    "districts": {
+      "thi-xa-phuoc-long": "Thị xã Phước Long",
+      "dong-xoai": "Đồng Xoài",
+      "thi-xa-binh-long": "Thị xã Bình Long",
+      "bu-gia-map": "Bù Gia Mập",
+      "loc-ninh": "Lộc Ninh",
+      "bu-dop": "Bù Đốp",
+      "hon-quan": "Hớn Quản",
+      "dong-phu": "Đồng Phú",
+      "bu-dang": "Bù Đăng",
+      "thi-xa-chon-thanh": "Thị Xã Chơn Thành",
+      "phu-rieng": "Phú Riềng"
+    }
+  },
+  "tay-ninh": {
+    "name": "Tây Ninh",
+    "districts": {
+      "thanh-pho-tay-ninh": "Thành Phố Tây Ninh",
+      "tan-bien": "Tân Biên",
+      "tan-chau": "Tân Châu",
+      "duong-minh-chau": "Dương Minh Châu",
+      "chau-thanh": "Châu Thành",
+      "thi-xa-hoa-thanh": "Thị xã Hòa Thành",
+      "go-dau": "Gò Dầu",
+      "ben-cau": "Bến Cầu",
+      "thi-xa-trang-bang": "Thị xã Trảng Bàng"
+    }
+  },
+  "binh-duong": {
+    "name": "Bình Dương",
+    "districts": {
+      "thu-dau-mot": "Thủ Dầu Một",
+      "bau-bang": "Bàu Bàng",
+      "dau-tieng": "Dầu Tiếng",
+      "thi-xa-ben-cat": "Thị xã Bến Cát",
+      "phu-giao": "Phú Giáo",
+      "thi-xa-tan-uyen": "Thị xã Tân Uyên",
+      "di-an": "Dĩ An",
+      "thuan-an": "Thuận An",
+      "bac-tan-uyen": "Bắc Tân Uyên"
+    }
+  },
+  "dong-nai": {
+    "name": "Đồng Nai",
+    "districts": {
+      "bien-hoa": "Biên Hòa",
+      "long-khanh": "Long Khánh",
+      "tan-phu": "Tân Phú",
+      "vinh-cuu": "Vĩnh Cửu",
+      "dinh-quan": "Định Quán",
+      "trang-bom": "Trảng Bom",
+      "thong-nhat": "Thống Nhất",
+      "cam-my": "Cẩm Mỹ",
+      "long-thanh": "Long Thành",
+      "xuan-loc": "Xuân Lộc",
+      "nhon-trach": "Nhơn Trạch"
+    }
+  },
+  "ba-ria-vung-tau": {
+    "name": "Bà Rịa - Vũng Tàu",
+    "districts": {
+      "vung-tau": "Vũng Tàu",
+      "ba-ria": "Bà Rịa",
+      "chau-duc": "Châu Đức",
+      "xuyen-moc": "Xuyên Mộc",
+      "long-dien": "Long Điền",
+      "dat-do": "Đất Đỏ",
+      "thi-xa-phu-my": "Thị xã Phú Mỹ",
+      "con-dao": "Côn Đảo",
+      "bien-bai-sau": "Biển Bãi Sau",
+      "bien-bai-truoc": "Biển Bãi Trước",
+      "bien-bai-dau": "Biển Bãi Dâu",
+      "bien-bai-dua": "Biển Bãi Dứa",
+      "bien-nghinh-phong": "Biển Nghinh Phong",
+      "bien-chi-linh": "Biển Chí Linh",
+      "bien-loc-an": "Biển Lộc An",
+      "bien-suoi-o": "Biển Suối Ồ",
+      "bien-ho-coc": "Biển Hồ Cốc",
+      "bien-ho-tram": "Biển Hồ Tràm",
+      "bien-long-hai": "Biển Long Hải"
+    }
+  },
+  "ho-chi-minh": {
+    "name": "Hồ Chí Minh",
+    "districts": {
+      "quan-1": "Quận 1",
+      "quan-12": "Quận 12",
+      "quan-thu-duc": "Quận Thủ Đức",
+      "quan-9": "Quận 9",
+      "quan-go-vap": "Quận Gò Vấp",
+      "quan-binh-thanh": "Quận Bình Thạnh",
+      "quan-tan-binh": "Quận Tân Bình",
+      "quan-tan-phu": "Quận Tân Phú",
+      "quan-phu-nhuan": "Quận Phú Nhuận",
+      "quan-2": "Quận 2",
+      "quan-3": "Quận 3",
+      "quan-10": "Quận 10",
+      "quan-11": "Quận 11",
+      "quan-4": "Quận 4",
+      "quan-5": "Quận 5",
+      "quan-6": "Quận 6",
+      "quan-8": "Quận 8",
+      "quan-binh-tan": "Quận Bình Tân",
+      "quan-7": "Quận 7",
+      "cu-chi": "Củ Chi",
+      "hoc-mon": "Hóc Môn",
+      "binh-chanh": "Bình Chánh",
+      "nha-be": "Nhà Bè",
+      "can-gio": "Cần Giờ",
+      "cho-lon": "Chợ Lớn",
+      "bien-can-gio": "Biển Cần Giờ"
+    }
+  },
+  "long-an": {
+    "name": "Long An",
+    "districts": {
+      "tan-an": "Tân An",
+      "thi-xa-kien-tuong": "Thị xã Kiến Tường",
+      "tan-hung": "Tân Hưng",
+      "vinh-hung": "Vĩnh Hưng",
+      "moc-hoa": "Mộc Hóa",
+      "tan-thanh": "Tân Thạnh",
+      "thanh-hoa": "Thạnh Hóa",
+      "duc-hue": "Đức Huệ",
+      "duc-hoa": "Đức Hòa",
+      "ben-luc": "Bến Lức",
+      "thu-thua": "Thủ Thừa",
+      "tan-tru": "Tân Trụ",
+      "can-duoc": "Cần Đước",
+      "can-giuoc": "Cần Giuộc",
+      "chau-thanh": "Châu Thành"
+    }
+  },
+  "tien-giang": {
+    "name": "Tiền Giang",
+    "districts": {
+      "my-tho": "Mỹ Tho",
+      "thi-xa-go-cong": "Thị xã Gò Công",
+      "thi-xa-cai-lay": "Thị xã Cai Lậy",
+      "tan-phuoc": "Tân Phước",
+      "cai-be": "Cái Bè",
+      "cai-lay": "Cai Lậy",
+      "chau-thanh": "Châu Thành",
+      "cho-gao": "Chợ Gạo",
+      "go-cong-tay": "Gò Công Tây",
+      "go-cong-dong": "Gò Công Đông",
+      "tan-phu-dong": "Tân Phú Đông"
+    }
+  },
+  "ben-tre": {
+    "name": "Bến Tre",
+    "districts": {
+      "thanh-pho-ben-tre": "Thành Phố Bến Tre",
+      "chau-thanh": "Châu Thành",
+      "cho-lach": "Chợ Lách",
+      "mo-cay-nam": "Mỏ Cày Nam",
+      "giong-trom": "Giồng Trôm",
+      "binh-dai": "Bình Đại",
+      "ba-tri": "Ba Tri",
+      "thanh-phu": "Thạnh Phú",
+      "mo-cay-bac": "Mỏ Cày Bắc"
+    }
+  },
+  "tra-vinh": {
+    "name": "Trà Vinh",
+    "districts": {
+      "thanh-pho-tra-vinh": "Thành Phố Trà Vinh",
+      "cang-long": "Càng Long",
+      "cau-ke": "Cầu Kè",
+      "tieu-can": "Tiểu Cần",
+      "chau-thanh": "Châu Thành",
+      "cau-ngang": "Cầu Ngang",
+      "tra-cu": "Trà Cú",
+      "duyen-hai": "Duyên Hải",
+      "thi-xa-duyen-hai": "Thị xã Duyên Hải",
+      "bien-ba-dong": "Biển Ba Động"
+    }
+  },
+  "vinh-long": {
+    "name": "Vĩnh Long",
+    "districts": {
+      "thanh-pho-vinh-long": "Thành Phố Vĩnh Long",
+      "long-ho": "Long Hồ",
+      "mang-thit": "Mang Thít",
+      "vung-liem": "Vũng Liêm",
+      "tam-binh": "Tam Bình",
+      "thi-xa-binh-minh": "Thị xã Bình Minh",
+      "tra-on": "Trà Ôn",
+      "binh-tan": "Bình Tân"
+    }
+  },
+  "dong-thap": {
+    "name": "Đồng Tháp",
+    "districts": {
+      "cao-lanh": "Cao Lãnh",
+      "sa-dec": "Sa Đéc",
+      "thanh-pho-hong-ngu": "Thành Phố Hồng Ngự",
+      "tan-hong": "Tân Hồng",
+      "huyen-hong-ngu": "Huyện Hồng Ngự",
+      "tam-nong": "Tam Nông",
+      "thap-muoi": "Tháp Mười",
+      "huyen-cao-lanh": "Huyện Cao Lãnh",
+      "thanh-binh": "Thanh Bình",
+      "lap-vo": "Lấp Vò",
+      "lai-vung": "Lai Vung",
+      "chau-thanh": "Châu Thành"
+    }
+  },
+  "an-giang": {
+    "name": "An Giang",
+    "districts": {
+      "long-xuyen": "Long Xuyên",
+      "chau-doc": "Châu Đốc",
+      "an-phu": "An Phú",
+      "thi-xa-tan-chau": "Thị xã Tân Châu",
+      "phu-tan": "Phú Tân",
+      "chau-phu": "Châu Phú",
+      "tinh-bien": "Tịnh Biên",
+      "tri-ton": "Tri Tôn",
+      "chau-thanh": "Châu Thành",
+      "cho-moi": "Chợ Mới",
+      "thoai-son": "Thoại Sơn"
+    }
+  },
+  "kien-giang": {
+    "name": "Kiên Giang",
+    "districts": {
+      "rach-gia": "Rạch Giá",
+      "ha-tien": "Hà Tiên",
+      "kien-luong": "Kiên Lương",
+      "hon-dat": "Hòn Đất",
+      "tan-hiep": "Tân Hiệp",
+      "chau-thanh": "Châu Thành",
+      "giong-rieng": "Giồng Riềng",
+      "go-quao": "Gò Quao",
+      "an-bien": "An Biên",
+      "an-minh": "An Minh",
+      "vinh-thuan": "Vĩnh Thuận",
+      "phu-quoc": "Phú Quốc",
+      "kien-hai": "Kiên Hải",
+      "u-minh-thuong": "U Minh Thượng",
+      "giang-thanh": "Giang Thành",
+      "bien-mui-nai": "Biển Mũi Nai",
+      "bien-phu-quoc": "Biển Phú Quốc",
+      "bien-hon-chong": "Biển Hòn Chông",
+      "bien-bai-duong": "Biển Bãi Dương"
+    }
+  },
+  "can-tho": {
+    "name": "Cần Thơ",
+    "districts": {
+      "ninh-kieu": "Ninh Kiều",
+      "o-mon": "Ô Môn",
+      "binh-thuy": "Bình Thuỷ",
+      "cai-rang": "Cái Răng",
+      "thot-not": "Thốt Nốt",
+      "vinh-thanh": "Vĩnh Thạnh",
+      "co-do": "Cờ Đỏ",
+      "phong-dien": "Phong Điền",
+      "thoi-lai": "Thới Lai"
+    }
+  },
+  "hau-giang": {
+    "name": "Hậu Giang",
+    "districts": {
+      "vi-thanh": "Vị Thanh",
+      "nga-bay": "Ngã Bảy",
+      "chau-thanh-a": "Châu Thành A",
+      "chau-thanh": "Châu Thành",
+      "phung-hiep": "Phụng Hiệp",
+      "vi-thuy": "Vị Thuỷ",
+      "long-my": "Long Mỹ",
+      "thi-xa-long-my": "Thị xã Long Mỹ"
+    }
+  },
+  "soc-trang": {
+    "name": "Sóc Trăng",
+    "districts": {
+      "thanh-pho-soc-trang": "Thành Phố Sóc Trăng",
+      "chau-thanh": "Châu Thành",
+      "ke-sach": "Kế Sách",
+      "my-tu": "Mỹ Tú",
+      "cu-lao-dung": "Cù Lao Dung",
+      "long-phu": "Long Phú",
+      "my-xuyen": "Mỹ Xuyên",
+      "thi-xa-nga-nam": "Thị xã Ngã Năm",
+      "thanh-tri": "Thạnh Trị",
+      "thi-xa-vinh-chau": "Thị xã Vĩnh Châu",
+      "tran-de": "Trần Đề"
+    }
+  },
+  "bac-lieu": {
+    "name": "Bạc Liêu",
+    "districts": {
+      "thanh-pho-bac-lieu": "Thành Phố Bạc Liêu",
+      "hong-dan": "Hồng Dân",
+      "phuoc-long": "Phước Long",
+      "vinh-loi": "Vĩnh Lợi",
+      "thi-xa-gia-rai": "Thị xã Giá Rai",
+      "dong-hai": "Đông Hải",
+      "hoa-binh": "Hoà Bình"
+    }
+  },
+  "ca-mau": {
+    "name": "Cà Mau",
+    "districts": {
+      "thanh-pho-ca-mau": "Thành Phố Cà Mau",
+      "u-minh": "U Minh",
+      "thoi-binh": "Thới Bình",
+      "tran-van-thoi": "Trần Văn Thời",
+      "cai-nuoc": "Cái Nước",
+      "dam-doi": "Đầm Dơi",
+      "nam-can": "Năm Căn",
+      "phu-tan": "Phú Tân",
+      "ngoc-hien": "Ngọc Hiển"
+    }
+  }
+}

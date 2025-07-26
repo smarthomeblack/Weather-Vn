@@ -1,0 +1,500 @@
+{
+  "current": {
+    "temperature": 28.0,
+    "condition_text": "mưa nhẹ",
+    "condition": "rainy",
+    "humidity": 81.9,
+    "wind_speed": 2.84,
+    "dewpoint": 25.3,
+    "uv": 0.0,
+    "apparent_temperature": 33.0,
+    "sunrise": "5:26 am",
+    "sunset": "6:35 pm"
+  },
+  "daily_forecast": [
+    {
+      "day_name": "CN",
+      "date_text": "27/07",
+      "datetime": "2025-07-27T00:00:00",
+      "temp_low": 27.9,
+      "temp_high": 33.2,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "day_name": "T2",
+      "date_text": "28/07",
+      "datetime": "2025-07-28T00:00:00",
+      "temp_low": 26.5,
+      "temp_high": 35.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "day_name": "T3",
+      "date_text": "29/07",
+      "datetime": "2025-07-29T00:00:00",
+      "temp_low": 27.2,
+      "temp_high": 36.2,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "day_name": "T4",
+      "date_text": "30/07",
+      "datetime": "2025-07-30T00:00:00",
+      "temp_low": 28.3,
+      "temp_high": 36.7,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    }
+  ],
+  "hourly_forecast": [
+    {
+      "time_text": "6:00 pm",
+      "datetime": "2025-07-27T18:00:25.462937",
+      "temperature": 29.7,
+      "apparent_temperature": 34.7,
+      "humidity": 80.0,
+      "condition_text": "mây thưa",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "7:00 pm",
+      "datetime": "2025-07-26T19:00:25.463320",
+      "temperature": 29.0,
+      "apparent_temperature": 33.3,
+      "humidity": 81.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "8:00 pm",
+      "datetime": "2025-07-26T20:00:25.463582",
+      "temperature": 29.0,
+      "apparent_temperature": 33.1,
+      "humidity": 82.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "9:00 pm",
+      "datetime": "2025-07-26T21:00:25.463835",
+      "temperature": 28.7,
+      "apparent_temperature": 33.2,
+      "humidity": 83.0,
+      "condition_text": "mây thưa",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "10:00 pm",
+      "datetime": "2025-07-26T22:00:25.464110",
+      "temperature": 28.9,
+      "apparent_temperature": 33.1,
+      "humidity": 84.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "11:00 pm",
+      "datetime": "2025-07-26T23:00:25.464377",
+      "temperature": 28.3,
+      "apparent_temperature": 32.9,
+      "humidity": 86.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "12:00 am",
+      "datetime": "2025-07-27T00:00:25.464630",
+      "temperature": 27.8,
+      "apparent_temperature": 32.2,
+      "humidity": 88.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "1:00 am",
+      "datetime": "2025-07-27T01:00:25.464884",
+      "temperature": 28.9,
+      "apparent_temperature": 34.9,
+      "humidity": 89.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "2:00 am",
+      "datetime": "2025-07-27T02:00:25.465147",
+      "temperature": 27.8,
+      "apparent_temperature": 32.2,
+      "humidity": 90.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "3:00 am",
+      "datetime": "2025-07-27T03:00:25.465402",
+      "temperature": 27.5,
+      "apparent_temperature": 32.9,
+      "humidity": 90.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "4:00 am",
+      "datetime": "2025-07-27T04:00:25.465655",
+      "temperature": 27.0,
+      "apparent_temperature": 32.6,
+      "humidity": 91.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "5:00 am",
+      "datetime": "2025-07-27T05:00:25.465905",
+      "temperature": 27.6,
+      "apparent_temperature": 31.1,
+      "humidity": 91.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "6:00 am",
+      "datetime": "2025-07-27T06:00:25.466166",
+      "temperature": 27.8,
+      "apparent_temperature": 32.4,
+      "humidity": 91.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "7:00 am",
+      "datetime": "2025-07-27T07:00:25.466419",
+      "temperature": 28.6,
+      "apparent_temperature": 34.7,
+      "humidity": 85.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "8:00 am",
+      "datetime": "2025-07-27T08:00:25.466673",
+      "temperature": 29.6,
+      "apparent_temperature": 35.0,
+      "humidity": 80.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "9:00 am",
+      "datetime": "2025-07-27T09:00:25.467053",
+      "temperature": 30.1,
+      "apparent_temperature": 36.5,
+      "humidity": 74.0,
+      "condition_text": "mây đen u ám",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "10:00 am",
+      "datetime": "2025-07-27T10:00:25.467308",
+      "temperature": 32.0,
+      "apparent_temperature": 38.1,
+      "humidity": 67.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "11:00 am",
+      "datetime": "2025-07-27T11:00:25.467564",
+      "temperature": 32.7,
+      "apparent_temperature": 39.3,
+      "humidity": 64.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "12:00 pm",
+      "datetime": "2025-07-27T12:00:25.467820",
+      "temperature": 32.4,
+      "apparent_temperature": 39.2,
+      "humidity": 63.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "1:00 pm",
+      "datetime": "2025-07-27T13:00:25.468075",
+      "temperature": 33.5,
+      "apparent_temperature": 39.3,
+      "humidity": 63.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "2:00 pm",
+      "datetime": "2025-07-27T14:00:25.468330",
+      "temperature": 33.3,
+      "apparent_temperature": 40.8,
+      "humidity": 62.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "3:00 pm",
+      "datetime": "2025-07-27T15:00:25.468586",
+      "temperature": 33.5,
+      "apparent_temperature": 40.5,
+      "humidity": 60.0,
+      "condition_text": "bầu trời quang đãng",
+      "condition": "sunny"
+    },
+    {
+      "time_text": "4:00 pm",
+      "datetime": "2025-07-27T16:00:25.468839",
+      "temperature": 33.7,
+      "apparent_temperature": 41.0,
+      "humidity": 63.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "5:00 pm",
+      "datetime": "2025-07-27T17:00:25.469108",
+      "temperature": 31.7,
+      "apparent_temperature": 38.8,
+      "humidity": 72.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "6:00 pm",
+      "datetime": "2025-07-27T18:00:25.469365",
+      "temperature": 30.2,
+      "apparent_temperature": 37.9,
+      "humidity": 79.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "7:00 pm",
+      "datetime": "2025-07-26T19:00:25.469620",
+      "temperature": 28.0,
+      "apparent_temperature": 33.2,
+      "humidity": 84.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "8:00 pm",
+      "datetime": "2025-07-26T20:00:25.469873",
+      "temperature": 28.0,
+      "apparent_temperature": 33.7,
+      "humidity": 86.0,
+      "condition_text": "bầu trời quang đãng",
+      "condition": "sunny"
+    },
+    {
+      "time_text": "9:00 pm",
+      "datetime": "2025-07-26T21:00:25.470131",
+      "temperature": 28.8,
+      "apparent_temperature": 32.0,
+      "humidity": 87.0,
+      "condition_text": "bầu trời quang đãng",
+      "condition": "sunny"
+    },
+    {
+      "time_text": "10:00 pm",
+      "datetime": "2025-07-26T22:00:25.470384",
+      "temperature": 28.7,
+      "apparent_temperature": 32.4,
+      "humidity": 88.0,
+      "condition_text": "bầu trời quang đãng",
+      "condition": "sunny"
+    },
+    {
+      "time_text": "11:00 pm",
+      "datetime": "2025-07-26T23:00:25.470640",
+      "temperature": 27.2,
+      "apparent_temperature": 31.0,
+      "humidity": 88.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "12:00 am",
+      "datetime": "2025-07-27T00:00:25.470891",
+      "temperature": 27.8,
+      "apparent_temperature": 31.4,
+      "humidity": 89.0,
+      "condition_text": "mây thưa",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "1:00 am",
+      "datetime": "2025-07-27T01:00:25.471157",
+      "temperature": 27.7,
+      "apparent_temperature": 31.1,
+      "humidity": 90.0,
+      "condition_text": "mây thưa",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "2:00 am",
+      "datetime": "2025-07-27T02:00:25.471408",
+      "temperature": 27.9,
+      "apparent_temperature": 30.0,
+      "humidity": 90.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "3:00 am",
+      "datetime": "2025-07-27T03:00:25.471670",
+      "temperature": 27.8,
+      "apparent_temperature": 27.6,
+      "humidity": 90.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "4:00 am",
+      "datetime": "2025-07-27T04:00:25.471923",
+      "temperature": 27.6,
+      "apparent_temperature": 28.0,
+      "humidity": 90.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "5:00 am",
+      "datetime": "2025-07-27T05:00:25.472181",
+      "temperature": 26.5,
+      "apparent_temperature": 26.9,
+      "humidity": 91.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "6:00 am",
+      "datetime": "2025-07-27T06:00:25.472434",
+      "temperature": 27.1,
+      "apparent_temperature": 30.4,
+      "humidity": 90.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "7:00 am",
+      "datetime": "2025-07-27T07:00:25.472688",
+      "temperature": 28.6,
+      "apparent_temperature": 32.4,
+      "humidity": 85.0,
+      "condition_text": "mây thưa",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "8:00 am",
+      "datetime": "2025-07-27T08:00:25.472942",
+      "temperature": 29.7,
+      "apparent_temperature": 35.4,
+      "humidity": 80.0,
+      "condition_text": "bầu trời quang đãng",
+      "condition": "sunny"
+    },
+    {
+      "time_text": "9:00 am",
+      "datetime": "2025-07-27T09:00:25.473212",
+      "temperature": 30.4,
+      "apparent_temperature": 37.3,
+      "humidity": 76.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "10:00 am",
+      "datetime": "2025-07-27T10:00:25.473470",
+      "temperature": 31.4,
+      "apparent_temperature": 38.2,
+      "humidity": 70.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "11:00 am",
+      "datetime": "2025-07-27T11:00:25.473725",
+      "temperature": 32.3,
+      "apparent_temperature": 39.9,
+      "humidity": 66.0,
+      "condition_text": "mưa vừa",
+      "condition": "pouring"
+    },
+    {
+      "time_text": "12:00 pm",
+      "datetime": "2025-07-27T12:00:25.473980",
+      "temperature": 33.7,
+      "apparent_temperature": 41.0,
+      "humidity": 62.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "1:00 pm",
+      "datetime": "2025-07-27T13:00:25.474239",
+      "temperature": 35.0,
+      "apparent_temperature": 42.0,
+      "humidity": 60.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "2:00 pm",
+      "datetime": "2025-07-27T14:00:25.474493",
+      "temperature": 34.6,
+      "apparent_temperature": 42.0,
+      "humidity": 58.0,
+      "condition_text": "mưa nhẹ",
+      "condition": "rainy"
+    },
+    {
+      "time_text": "3:00 pm",
+      "datetime": "2025-07-27T15:00:25.474757",
+      "temperature": 34.8,
+      "apparent_temperature": 41.7,
+      "humidity": 56.0,
+      "condition_text": "mây cụm",
+      "condition": "partlycloudy"
+    },
+    {
+      "time_text": "4:00 pm",
+      "datetime": "2025-07-27T16:00:25.475022",
+      "temperature": 35.3,
+      "apparent_temperature": 41.2,
+      "humidity": 53.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    },
+    {
+      "time_text": "5:00 pm",
+      "datetime": "2025-07-27T17:00:25.475279",
+      "temperature": 35.4,
+      "apparent_temperature": 42.5,
+      "humidity": 55.0,
+      "condition_text": "mây rải rác",
+      "condition": "cloudy"
+    }
+  ],
+  "air_quality": {
+    "aqi_level": "air-quality-content",
+    "aqi_level_text": "Không xác định",
+    "aqi": "Trung bình",
+    "aqi_description": "Không tốt cho người nhạy cảm. Nhóm người nhạy cảm có thể chịu ảnh hưởng sức khỏe. Số đông không có nguy cơ bị tác động.",
+    "co": 723.48,
+    "nh3": 24.99,
+    "no": 1.12,
+    "no2": 20.84,
+    "o3": 12.31,
+    "pm2_5": 33.92,
+    "pm10": 41.79,
+    "so2": 8.16
+  }
+}

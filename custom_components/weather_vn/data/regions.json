@@ -1,0 +1,115 @@
+{
+  "regions": [
+    {
+      "id": "dong-bac-bo",
+      "name": "Đông Bắc Bộ",
+      "provinces": [
+        "ha-giang",
+        "cao-bang",
+        "bac-kan",
+        "tuyen-quang",
+        "thai-nguyen",
+        "lang-son",
+        "quang-ninh",
+        "bac-giang",
+        "phu-tho"
+      ]
+    },
+    {
+      "id": "tay-bac-bo",
+      "name": "Tây Bắc Bộ",
+      "provinces": [
+        "lao-cai",
+        "dien-bien",
+        "lai-chau",
+        "son-la",
+        "yen-bai",
+        "hoa-binh"
+      ]
+    },
+    {
+      "id": "dong-bang-song-hong",
+      "name": "Đồng bằng Sông Hồng",
+      "provinces": [
+        "ha-noi",
+        "vinh-phuc",
+        "bac-ninh",
+        "hai-duong",
+        "hai-phong",
+        "hung-yen",
+        "thai-binh",
+        "ha-nam",
+        "nam-dinh",
+        "ninh-binh"
+      ]
+    },
+    {
+      "id": "bac-trung-bo",
+      "name": "Bắc Trung Bộ",
+      "provinces": [
+        "thanh-hoa",
+        "nghe-an",
+        "ha-tinh",
+        "quang-binh",
+        "quang-tri",
+        "hue"
+      ]
+    },
+    {
+      "id": "nam-trung-bo",
+      "name": "Nam Trung Bộ",
+      "provinces": [
+        "da-nang",
+        "quang-nam",
+        "quang-ngai",
+        "binh-dinh",
+        "phu-yen",
+        "khanh-hoa",
+        "ninh-thuan",
+        "binh-thuan"
+      ]
+    },
+    {
+      "id": "tay-nguyen",
+      "name": "Tây Nguyên",
+      "provinces": [
+        "kon-tum",
+        "gia-lai",
+        "dak-lak",
+        "dak-nong",
+        "lam-dong"
+      ]
+    },
+    {
+      "id": "dong-nam-bo",
+      "name": "Đông Nam Bộ",
+      "provinces": [
+        "binh-phuoc",
+        "tay-ninh",
+        "binh-duong",
+        "dong-nai",
+        "ba-ria-vung-tau",
+        "ho-chi-minh"
+      ]
+    },
+    {
+      "id": "dong-bang-song-cuu-long",
+      "name": "Đồng bằng sông Cửu Long",
+      "provinces": [
+        "long-an",
+        "tien-giang",
+        "ben-tre",
+        "tra-vinh",
+        "vinh-long",
+        "dong-thap",
+        "an-giang",
+        "kien-giang",
+        "can-tho",
+        "hau-giang",
+        "soc-trang",
+        "bac-lieu",
+        "ca-mau"
+      ]
+    }
+  ]
+} 

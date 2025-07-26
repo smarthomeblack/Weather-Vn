@@ -1,0 +1,66 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Weather Vn - Chọn tỉnh/thành phố",
+        "data": {
+          "province": "Tỉnh/Thành phố"
+        }
+      },
+      "district": {
+        "title": "Weather Vn - Chọn quận/huyện",
+        "data": {
+          "district": "Quận/Huyện"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Đã cấu hình tỉnh/thành phố và quận/huyện này rồi"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Weather Vn - Cấu hình",
+        "data": {
+          "province": "Tỉnh/Thành phố",
+          "scan_interval": "Thời gian cập nhật (phút)"
+        },
+        "description": "Cấu hình Weather Vn. Chọn tỉnh/thành phố và thiết lập thời gian cập nhật dữ liệu."
+      },
+      "district": {
+        "title": "Weather Vn - Chọn quận/huyện",
+        "data": {
+          "district": "Quận/Huyện"
+        }
+      }
+    }
+  },
+  "entity": {
+    "weather": {
+      "weather_vn": {
+        "state_attributes": {
+          "forecast": {
+            "state": {
+              "clear-night": "Trời trong, đêm",
+              "cloudy": "Nhiều mây",
+              "exceptional": "Khác thường",
+              "fog": "Sương mù",
+              "hail": "Mưa đá",
+              "lightning": "Sấm sét",
+              "lightning-rainy": "Mưa giông",
+              "partlycloudy": "Mây rải rác",
+              "pouring": "Mưa lớn",
+              "rainy": "Mưa",
+              "snowy": "Tuyết",
+              "snowy-rainy": "Mưa tuyết",
+              "sunny": "Nắng",
+              "windy": "Gió",
+              "windy-variant": "Gió mạnh"
+            }
+          }
+        }
+      }
+    }
+  }
+} 
