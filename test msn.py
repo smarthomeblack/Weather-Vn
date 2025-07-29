@@ -18,7 +18,7 @@ def parse_numeric(value, default=None):
 def fetch_and_export_weather_data():
 
     url = (
-        "msn"
+        "https://www.msn.com/vi-vn/weather/hourlyforecast/in-Minh-Khai-Commune,T%E1%BB%89nh-Cao-B%E1%BA%B1ng"
     )
 
     print(f"Đang truy cập URL: {url}")
@@ -74,7 +74,8 @@ def fetch_and_export_weather_data():
             "uv_index": current_condition_raw.get('uv'),
             "dew_point": parse_numeric(current_condition_raw.get('dewPoint')),
             "aqi": parse_numeric(current_condition_raw.get('aqi')),
-            "primary_pollutant": current_condition_raw.get('primaryPollutant')
+            "primary_pollutant": current_condition_raw.get('primaryPollutant'),
+            "rain_forecast": nowcasting_raw.get("summary")
         }
 
         all_forecasts = []

@@ -251,6 +251,7 @@ class WeatherVnDataService:
                 "temp_low": _parse_numeric(today_forecast_raw.get("lowTemp")),
                 "temp_high": _parse_numeric(today_forecast_raw.get("highTemp")),
                 "precipitation_today": _parse_numeric(today_forecast_raw.get("raToMN"), default=0) * 10,
+                "rain_forecast": weather_state.get("nowcasting", {}).get("summary"),
             }
 
         # --- Dự báo hàng giờ ---

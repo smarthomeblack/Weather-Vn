@@ -235,6 +235,12 @@ SENSOR_TYPES: tuple[WeatherVnSensorEntityDescription, ...] = (
         entity_category=None,
         icon="mdi:thermometer-high",
     ),
+    WeatherVnSensorEntityDescription(
+        key="rain_forecast",
+        name="Dự báo mưa",
+        entity_category=None,
+        icon="mdi:weather-pouring",
+    ),
 )
 
 
@@ -467,7 +473,7 @@ class WeatherVnSensor(CoordinatorEntity, SensorEntity):
             "pressure", "visibility", "wind_gust", "precipitation_amount",
             "precipitation_accumulation", "precipitation_probability",
             "precipitation_next_hour_amount", "precipitation_next_hour_accumulation",
-            "precipitation_today", "temp_low", "temp_high"
+            "precipitation_today", "temp_low", "temp_high", "rain_forecast"
         ]:
             return current_weather.get(key)
         elif key == "co":
