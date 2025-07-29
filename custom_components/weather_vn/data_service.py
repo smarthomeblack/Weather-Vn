@@ -1,446 +1,371 @@
 """Dịch vụ dữ liệu cho Weather Vn."""
-from datetime import timedelta
+import asyncio
+import json
 import logging
 import re
+from typing import Any
 import aiohttp
 from bs4 import BeautifulSoup
-from homeassistant.util.dt import utcnow
+import urllib.parse
+
+from .const import _PROVINCES_DATA, ACTIVITY_MAP
 
 _LOGGER = logging.getLogger(__name__)
+
+
+class WeatherVnDataError(Exception):
+    """Lỗi tùy chỉnh cho việc lấy dữ liệu của Weather Vn."""
+    pass
+
+
+def _parse_numeric(value, default=None):
+    """
+    Phân tích một cách an toàn một giá trị số từ một chuỗi có thể chứa các đơn vị,
+    hoặc trả về giá trị nếu nó đã là một số. Luôn trả về float.
+    """
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        match = re.search(r"^-?\d+\.?\d*", value)
+        if match:
+            return float(match.group())
+    if default is not None:
+        return float(default)
+    return None
 
 
 class WeatherVnDataService:
     """Dịch vụ dữ liệu thời tiết từ dbtt.edu.vn."""
 
-    def __init__(self, province, district, scan_interval=30):
+    def __init__(self, province: str, district: str):
         """Khởi tạo dịch vụ với tỉnh và huyện."""
         self.province = province
         self.district = district
-        self.base_url = f"https://dbtt.edu.vn/thoi-tiet-{province}/{district}"
-        self.forecast_url = f"https://dbtt.edu.vn/thoi-tiet-{province}/{district}/7-ngay-toi"
-        self.cache_data = None
-        self.cache_time = None
-        self.cache_duration = timedelta(minutes=1)
+        self.msn_url = self._build_msn_url()
+        self.dbtt_url = f"https://dbtt.edu.vn/thoi-tiet-{province}/{district}"
 
-    async def get_data(self):
-        """Lấy dữ liệu thời tiết từ trang web."""
-        # Kiểm tra cache
-        if self.cache_data and self.cache_time:
-            time_diff = utcnow() - self.cache_time
-            if time_diff < self.cache_duration:
-                _LOGGER.debug("Sử dụng dữ liệu từ cache")
-                return self.cache_data
+    def _build_msn_url(self) -> str:
+        """Xây dựng URL cho MSN Weather."""
+        province_name = _PROVINCES_DATA.get(self.province, {}).get("name", self.province)
+        district_name = _PROVINCES_DATA.get(
+            self.province, {}
+        ).get("districts", {}).get(self.district, self.district)
+        location_string = f"{district_name},{province_name}"
+        # Mã hóa chuỗi sang định dạng URL
+        encoded_location = urllib.parse.quote(location_string)
+        return f"https://www.msn.com/vi-vn/weather/forecast/in-{encoded_location}"
 
-        _LOGGER.debug(f"Tải dữ liệu thời tiết từ {self.base_url}")
+    def _build_msn_life_url(self) -> str:
+        """Xây dựng URL cho trang life của MSN dựa trên tỉnh và huyện."""
+        location_name = f"{self.district}, {self.province}".replace("Tỉnh ", "").replace("Thành phố ", "")
+        encoded_location = urllib.parse.quote(location_name)
+        return f"https://www.msn.com/vi-vn/weather/life/in-{encoded_location}"
+
+    async def get_data(self) -> dict[str, Any]:
+        """
+        Lấy dữ liệu từ cả hai nguồn. Ném ra WeatherVnDataError nếu nguồn dữ liệu
+        quan trọng (MSN) thất bại.
+        """
+        async with aiohttp.ClientSession() as session:
+            # Sử dụng asyncio.gather để thực hiện các yêu cầu mạng đồng thời
+            results = await asyncio.gather(
+                self._fetch_msn_weather(session),
+                self._fetch_dbtt_aqi(session),
+                self._fetch_msn_life_data(session),  # Thêm tác vụ mới
+                return_exceptions=True,  # Trả về exception thay vì ném ra ngay lập tức
+            )
+
+        msn_data, aqi_data, life_data = results
+
+        # Xử lý kết quả từ MSN
+        if isinstance(msn_data, Exception):
+            _LOGGER.debug("Không thể lấy dữ liệu thời tiết từ MSN. Lỗi: %s", msn_data)
+            # Nếu MSN lỗi, chúng ta không thể tiếp tục
+            raise WeatherVnDataError("Lỗi khi lấy dữ liệu thời tiết từ MSN") from msn_data
+
+        # Xử lý kết quả từ DBTT
+        if isinstance(aqi_data, Exception):
+            _LOGGER.debug(
+                "Không thể lấy dữ liệu AQI từ dbtt.edu.vn, sẽ bỏ qua: %s", aqi_data
+            )
+            aqi_data = {}  # Sử dụng dữ liệu AQI rỗng
+
+        # Xử lý kết quả từ MSN Life
+        if isinstance(life_data, Exception):
+            _LOGGER.debug("Không thể lấy dữ liệu hoạt động từ MSN, sẽ bỏ qua: %s", life_data)
+            life_data = {"activities": []}  # Sử dụng dữ liệu rỗng
+
+        # Kết hợp dữ liệu
+        combined_data = {
+            **msn_data,
+            "air_quality": aqi_data,
+            **life_data,  # Thêm dữ liệu hoạt động
+        }
+
+        _LOGGER.debug("Đã cập nhật dữ liệu tổng hợp thành công")
+        return combined_data
+
+    async def _fetch_msn_weather(self, session: aiohttp.ClientSession) -> dict[str, Any]:
+        """Lấy và phân tích dữ liệu thời tiết từ MSN."""
+        _LOGGER.debug(f"Đang tải dữ liệu thời tiết từ MSN: {self.msn_url}")
         try:
-            # Lấy dữ liệu thời tiết hiện tại, chất lượng không khí và dự báo theo giờ
-            current_data = await self._fetch_current_data()
-            if not current_data:
-                return None
+            async with session.get(self.msn_url) as response:
+                response.raise_for_status()
+                html_content = await response.text()
 
-            # Lấy dữ liệu dự báo theo ngày từ trang dự báo 7 ngày
-            daily_forecast = await self._fetch_daily_forecast()
+                soup = BeautifulSoup(html_content, 'html.parser')
+                redux_script = soup.find('script', {'id': 'redux-data'})
+                if not redux_script:
+                    raise WeatherVnDataError("Không tìm thấy thẻ script 'redux-data' trong HTML của MSN")
 
-            # Tổng hợp dữ liệu
-            data = {
-                **current_data,
-                "daily_forecast": daily_forecast
+                json_data = json.loads(redux_script.string)
+                return self._parse_msn_json(json_data)
+
+        except aiohttp.ClientResponseError as http_err:
+            _LOGGER.debug("Lỗi HTTP khi tải dữ liệu MSN: %s, url='%s'", http_err.status, http_err.request_info.url)
+            raise WeatherVnDataError(f"Lỗi HTTP {http_err.status}") from http_err
+        except Exception as e:
+            _LOGGER.debug(f"Lỗi không xác định khi xử lý dữ liệu MSN: {e}")
+            raise WeatherVnDataError("Lỗi không xác định") from e
+
+    async def _fetch_msn_life_data(self, session: aiohttp.ClientSession) -> dict[str, Any]:
+        """Lấy và phân tích dữ liệu hoạt động đời sống từ MSN."""
+        life_url = self._build_msn_life_url()
+        _LOGGER.debug(f"Đang tải dữ liệu hoạt động từ MSN: {life_url}")
+        headers = {
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/91.0.4472.124 Safari/537.36'
+            )
+        }
+        try:
+            async with session.get(life_url, headers=headers) as response:
+                response.raise_for_status()
+                html_content = await response.text()
+
+                soup = BeautifulSoup(html_content, 'html.parser')
+                redux_script = soup.find('script', {'id': 'redux-data'})
+                if not redux_script:
+                    _LOGGER.debug("Không tìm thấy thẻ script 'redux-data' trong trang life của MSN")
+                    return {"activities": []}
+
+                json_data = json.loads(redux_script.string)
+                return self._parse_msn_life_data(json_data)
+        except Exception as e:
+            _LOGGER.debug(f"Lỗi khi tải hoặc phân tích dữ liệu hoạt động từ MSN: {e}")
+            return {"activities": []}  # Không ném lỗi, chỉ trả về rỗng
+
+    def _parse_msn_life_data(self, json_data: dict) -> dict:
+        """Phân tích dữ liệu JSON từ trang life của MSN."""
+        try:
+            life_activity_data = self._find_key_recursively(json_data, 'lifeActivityData')
+            if not life_activity_data:
+                return {"activities": []}
+
+            days_data = life_activity_data.get('days')
+            if not days_data or not isinstance(days_data, list) or len(days_data) == 0:
+                return {"activities": []}
+
+            today_indices = days_data[0].get('lifeDailyIndices')
+            if not today_indices or not isinstance(today_indices, list):
+                return {"activities": []}
+
+            activities = []
+            for item in today_indices:
+                item_type = item.get("type")
+                item_sub_type = item.get("subType")
+                activity_name = ACTIVITY_MAP.get((item_type, item_sub_type))
+
+                if activity_name:
+                    activities.append({
+                        "name": activity_name,
+                        "state": item.get("taskbarSummary"),
+                        "summary": item.get("summary"),
+                        "type": item_type,
+                        "subType": item_sub_type
+                    })
+
+            return {"activities": activities}
+        except (KeyError, IndexError):
+            return {"activities": []}
+
+    def _find_key_recursively(self, data, target_key):
+        if isinstance(data, dict):
+            for key, value in data.items():
+                if key == target_key:
+                    return value
+                elif isinstance(value, (dict, list)):
+                    result = self._find_key_recursively(value, target_key)
+                    if result is not None:
+                        return result
+        elif isinstance(data, list):
+            for item in data:
+                result = self._find_key_recursively(item, target_key)
+                if result is not None:
+                    return result
+        return None
+
+    def _parse_msn_json(self, json_data: dict) -> dict:
+        """Phân tích dữ liệu JSON từ MSN và ánh xạ sang cấu trúc mong muốn."""
+        weather_state = json_data.get("WeatherData", {}).get("_@STATE@_", {})
+
+        # --- Gom các nguồn dữ liệu thô ---
+        current_raw = weather_state.get("currentCondition", {})
+        forecast_days_raw = weather_state.get("forecast", [])
+        today_forecast_raw = forecast_days_raw[0] if forecast_days_raw else {}
+        hourly_forecast_raw = today_forecast_raw.get("hourly", []) if today_forecast_raw else []
+        first_hour_raw = hourly_forecast_raw[0] if hourly_forecast_raw else {}
+
+        # Lấy xác suất mưa của giờ tiếp theo
+        next_hour_precip_prob = 0.0
+        precipitation_next_hour_amount = 0.0
+        precipitation_next_hour_accumulation = 0.0
+        if len(hourly_forecast_raw) > 1:
+            next_hour_forecast = hourly_forecast_raw[1]
+            next_hour_precip_prob = _parse_numeric(next_hour_forecast.get("precipitation"), default=0)
+            precipitation_next_hour_amount = _parse_numeric(next_hour_forecast.get("rainAmount"), default=0) * 10
+            precipitation_next_hour_accumulation = _parse_numeric(next_hour_forecast.get("raAccu"), default=0) * 10
+
+        # --- Dữ liệu thời tiết hiện tại ---
+        current_weather = {}
+        if current_raw:
+            current_weather = {
+                "temperature": _parse_numeric(current_raw.get("currentTemperature")),
+                "apparent_temperature": _parse_numeric(current_raw.get("feels")),
+                "condition": current_raw.get("shortCap"),
+                "humidity": _parse_numeric(current_raw.get("humidity")),
+                "wind_speed": _parse_numeric(current_raw.get("windSpeed"), default=0) / 3.6,
+                "wind_gust": _parse_numeric(current_raw.get("windGust")),
+                "dew_point": _parse_numeric(current_raw.get("dewPoint")),
+                "uv": _parse_numeric(current_raw.get("uv")),
+                "pressure": _parse_numeric(current_raw.get("baro")),
+                "visibility": _parse_numeric(current_raw.get("visiblity")),
+                "precipitation_amount": _parse_numeric(first_hour_raw.get("rainAmount"), default=0) * 10,
+                "precipitation_accumulation": _parse_numeric(first_hour_raw.get("raAccu"), default=0) * 10,
+                "precipitation_probability": next_hour_precip_prob,
+                "precipitation_next_hour_amount": precipitation_next_hour_amount,
+                "precipitation_next_hour_accumulation": precipitation_next_hour_accumulation,
+                "sunrise": today_forecast_raw.get("almanac", {}).get("sunrise", "").split("T")[-1],
+                "sunset": today_forecast_raw.get("almanac", {}).get("sunset", "").split("T")[-1],
+                "temp_low": _parse_numeric(today_forecast_raw.get("lowTemp")),
+                "temp_high": _parse_numeric(today_forecast_raw.get("highTemp")),
+                "precipitation_today": _parse_numeric(today_forecast_raw.get("raToMN"), default=0) * 10,
             }
 
-            # Cập nhật cache
-            self.cache_data = data
-            self.cache_time = utcnow()
+        # --- Dự báo hàng giờ ---
+        hourly_forecast = []
+        # MSN trả về dự báo hàng giờ cho nhiều ngày, ta chỉ lấy 48 giờ đầu
+        hour_count = 0
+        for day in forecast_days_raw:
+            if hour_count >= 48:
+                break
+            for hour in day.get("hourly", []):
+                if hour_count >= 48:
+                    break
 
-            return data
+                hourly_item = {
+                    "datetime": hour.get("timeStr"),
+                    "temperature": _parse_numeric(hour.get("temperature")),
+                    "apparent_temperature": _parse_numeric(hour.get("feels")),
+                    "humidity": _parse_numeric(hour.get("humidity")),
+                    "condition": hour.get("cap"),
+                    "precipitation_probability": _parse_numeric(hour.get("precipitation"), default=0),
+                    "wind_speed": _parse_numeric(hour.get("windSpeed"), default=0) / 3.6,  # km/h -> m/s
+                }
+                hourly_forecast.append(hourly_item)
+                hour_count += 1
 
-        except Exception as e:
-            _LOGGER.error(f"Lỗi khi lấy dữ liệu thời tiết: {str(e)}")
-            if self.cache_data:
-                _LOGGER.DEBUG("Sử dụng dữ liệu cũ từ cache")
-                return self.cache_data
-            return None
+        # --- Dự báo hàng ngày ---
+        daily_forecast = []
+        for day in forecast_days_raw:
+            daily_item = {
+                "datetime": day.get("almanac", {}).get("valid", "").split("T")[0],
+                "condition": day.get("dayCap"),
+                "temp_high": _parse_numeric(day.get("highTemp")),
+                "temp_low": _parse_numeric(day.get("lowTemp")),
+                "precipitation_probability": _parse_numeric(day.get("day", {}).get("precipitation"), default=0),
+                "precipitation": _parse_numeric(day.get("raToMN"), default=0) * 10,  # Lấy raToMN (cm) và đổi sang mm
+                "humidity": _parse_numeric(day.get("day", {}).get("humidity")),
+                "wind_speed": _parse_numeric(day.get("windSpeed"), default=0) / 3.6,  # km/h -> m/s
+                "sunrise": day.get("almanac", {}).get("sunrise", "").split("T")[-1],
+                "sunset": day.get("almanac", {}).get("sunset", "").split("T")[-1],
+            }
+            daily_forecast.append(daily_item)
 
-    async def _fetch_current_data(self):
-        """Lấy dữ liệu thời tiết hiện tại và dự báo theo giờ."""
+        return {
+            "current_weather": current_weather,
+            "hourly_forecast": hourly_forecast,
+            "daily_forecast": daily_forecast,
+        }
+
+    async def _fetch_dbtt_aqi(self, session: aiohttp.ClientSession) -> dict[str, Any]:
+        """Lấy và phân tích dữ liệu chất lượng không khí từ dbtt.edu.vn."""
+        _LOGGER.debug(f"Đang tải dữ liệu AQI từ dbtt: {self.dbtt_url}")
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(self.base_url) as response:
-                    html_content = await response.text()
-
-                    # Phân tích dữ liệu
-                    current_weather = await self.parse_current_weather(html_content)
-                    hourly_forecast = await self.parse_hourly_forecast(html_content)
-                    air_quality = await self.parse_air_quality(html_content)
-
-                    # Tổng hợp dữ liệu
-                    return {
-                        "current_weather": current_weather,
-                        "hourly_forecast": hourly_forecast,
-                        "air_quality": air_quality
-                    }
+            async with session.get(self.dbtt_url) as response:
+                response.raise_for_status()
+                html_content = await response.text()
+                parsed_aqi = await self.parse_air_quality(html_content)
+                _LOGGER.debug("Dữ liệu AQI đã phân tích từ dbtt: %s", parsed_aqi)
+                return parsed_aqi
         except Exception as e:
-            _LOGGER.error(f"Lỗi khi lấy dữ liệu thời tiết hiện tại: {str(e)}")
-            return None
-
-    async def _fetch_daily_forecast(self):
-        """Lấy dữ liệu dự báo theo ngày từ trang dự báo 7 ngày."""
-        try:
-            _LOGGER.debug(f"Tải dữ liệu dự báo 7 ngày từ {self.forecast_url}")
-            async with aiohttp.ClientSession() as session:
-                async with session.get(self.forecast_url) as response:
-                    html_content = await response.text()
-                    return await self.parse_daily_forecast(html_content)
-        except Exception as e:
-            _LOGGER.error(f"Lỗi khi lấy dữ liệu dự báo 7 ngày: {str(e)}")
-            return []
-
-    async def parse_current_weather(self, html_content):
-        """Phân tích dữ liệu thời tiết hiện tại từ HTML."""
-        try:
-            soup = BeautifulSoup(html_content, 'html.parser')
-            result = {}
-
-            # Nhiệt độ hiện tại
-            temp_div = soup.select_one('.metro-weather-hi strong')
-            if temp_div:
-                temp_text = temp_div.text.strip()
-                result['temperature'] = float(temp_text.rstrip('°'))
-
-            # Cảm giác nhiệt
-            apparent_div = soup.select_one('.metro-weather-lo strong')
-            if apparent_div:
-                apparent_text = apparent_div.text.strip()
-                result['apparent_temperature'] = float(apparent_text.rstrip('°'))
-
-            # Điều kiện thời tiết
-            condition_div = soup.select_one('.metro-weather-overview-block-description p')
-            if condition_div:
-                result['condition'] = condition_div.text.strip()
-
-            # Độ ẩm
-            humidity_li = None
-            all_li = soup.select('.metro-weather-conditions li')
-            for li in all_li:
-                if "Độ ẩm" in li.text:
-                    humidity_li = li
-                    break
-
-            if humidity_li:
-                humidity_text = humidity_li.find('strong').text.strip()
-                result['humidity'] = float(humidity_text.rstrip('%'))
-
-            # Tốc độ gió
-            wind_li = None
-            for li in all_li:
-                if "Gió" in li.text:
-                    wind_li = li
-                    break
-
-            if wind_li:
-                wind_text = wind_li.find('strong').text.strip()
-                result['wind_speed'] = float(wind_text.replace('m/s', '').strip())
-
-            # Điểm ngưng
-            dewpoint_li = None
-            for li in all_li:
-                if "Điểm ngưng" in li.text:
-                    dewpoint_li = li
-                    break
-
-            if dewpoint_li:
-                dewpoint_text = dewpoint_li.find('strong').text.strip()
-                result['dew_point'] = float(dewpoint_text.rstrip('°'))
-
-            # Chỉ số UV
-            uv_li = None
-            for li in all_li:
-                if "UV" in li.text:
-                    uv_li = li
-                    break
-
-            if uv_li:
-                uv_text = uv_li.find('strong').text.strip()
-                result['uv'] = float(uv_text)
-
-            # Bình minh/hoàng hôn
-            sunrise_span = soup.select_one('.metro-weather-sunrise strong')
-            sunset_span = soup.select_one('.metro-weather-sunset strong')
-
-            if sunrise_span and sunrise_span.next_sibling:
-                sunrise_text = sunrise_span.next_sibling.strip()
-                result['sunrise'] = sunrise_text
-
-            if sunset_span and sunset_span.next_sibling:
-                sunset_text = sunset_span.next_sibling.strip()
-                result['sunset'] = sunset_text
-
-            # Lấy nhiệt độ min/max cho ngày hiện tại từ box dự báo đầu tiên
-            try:
-                # Tìm box dự báo cho ngày hiện tại
-                today_box = soup.find('div', class_='w_weather_boxes').find('div', class_='w_weather')
-                if today_box:
-                    _LOGGER.debug(f"Tìm thấy box dự báo cho ngày hiện tại: {today_box}")
-
-                    # Tìm tất cả thẻ span trong phần nhiệt độ
-                    temp_spans = today_box.select('.temp span')
-                    _LOGGER.debug(f"Số thẻ span tìm thấy: {len(temp_spans)}")
-
-                    if len(temp_spans) >= 2:
-                        # Thứ tự trong HTML là: min / max
-                        temp_min_text = temp_spans[0].text.strip().rstrip('°')
-                        temp_max_text = temp_spans[1].text.strip().rstrip('°')
-
-                        _LOGGER.debug(f"Nhiệt độ min: {temp_min_text}, max: {temp_max_text}")
-
-                        result['temp_low'] = float(temp_min_text)
-                        result['temp_high'] = float(temp_max_text)
-            except Exception as e:
-                _LOGGER.error(f"Lỗi khi phân tích nhiệt độ min/max: {str(e)}")
-
-            return result
-
-        except Exception as e:
-            _LOGGER.error(f"Lỗi khi phân tích thời tiết hiện tại: {str(e)}")
+            # Lỗi này không nghiêm trọng, chỉ ghi lại cảnh báo
+            _LOGGER.debug("Lỗi khi tải dữ liệu AQI từ dbtt: %s", e)
             return {}
 
-    async def parse_daily_forecast(self, html_content):
-        """Phân tích dữ liệu dự báo theo ngày từ HTML."""
-        try:
-            soup = BeautifulSoup(html_content, 'html.parser')
-            forecast_items = []
-
-            # Tìm tất cả các card chứa thông tin dự báo theo ngày
-            forecast_cards = soup.select('.weather-detail-content .card')
-            if not forecast_cards:
-                _LOGGER.warning("Không tìm thấy card dự báo 7 ngày")
-                return []
-
-            # Bỏ qua card đầu tiên vì đó là thông tin hiện tại
-            forecast_cards = forecast_cards[1:]
-
-            for card in forecast_cards:
-                try:
-                    item = {}
-
-                    # Lấy ngày và thứ từ tiêu đề
-                    title_header = card.select_one('.title-main h2 .weather-date-title')
-                    if title_header:
-                        title_text = title_header.text.strip()
-                        title_parts = title_text.split()
-                        if len(title_parts) >= 2:
-                            item['day'] = title_parts[0].strip()   # T2, T3, CN...
-                            item['date'] = title_parts[1].strip()  # DD/MM
-
-                    # Nhiệt độ
-                    temp_p = card.select_one('.weather-main-hero .temp')
-                    if temp_p:
-                        temp_text = temp_p.text.strip().rstrip('°')
-                        if temp_text:
-                            item['temperature'] = float(temp_text)
-
-                    # Điều kiện thời tiết
-                    condition_p = card.select_one('.weather-main-hero .overview-caption-item-detail')
-                    if condition_p:
-                        item['condition'] = condition_p.text.strip()
-
-                    # Cảm giác nhiệt
-                    apparent_temp_span = card.select_one('.overview-caption-summary-detail span')
-                    if apparent_temp_span:
-                        apparent_text = apparent_temp_span.text.strip().rstrip('°')
-                        if apparent_text:
-                            item['apparent_temperature'] = float(apparent_text)
-
-                    # Nhiệt độ min/max
-                    temp_low_high = card.select_one('.item-title:-soup-contains("Thấp/Cao")')
-                    if temp_low_high:
-                        temp_span = temp_low_high.find_next('p').select_one('span')
-                        if temp_span:
-                            temp_text = temp_span.text.strip()
-                            temps = temp_text.split('/')
-                            if len(temps) == 2:
-                                item['temp_low'] = float(temps[0].strip().rstrip('°'))
-                                item['temp_high'] = float(temps[1].strip().rstrip('°'))
-
-                    # Độ ẩm
-                    humidity_title = card.select_one('.item-title:-soup-contains("Độ ẩm")')
-                    if humidity_title:
-                        humidity_p = humidity_title.find_next('p')
-                        if humidity_p:
-                            humidity_text = humidity_p.text.strip().rstrip('%')
-                            if humidity_text:
-                                item['humidity'] = float(humidity_text)
-
-                    # Tốc độ gió
-                    wind_title = card.select_one('.item-title:-soup-contains("Gió")')
-                    if wind_title:
-                        wind_p = wind_title.find_next('p')
-                        if wind_p:
-                            wind_text = wind_p.text.strip().replace('m/s', '').strip()
-                            if wind_text:
-                                item['wind_speed'] = float(wind_text)
-
-                    # Lượng mưa
-                    rain_div = card.select_one('.icon:-soup-contains("Lượng mưa")')
-                    if rain_div:
-                        rain_p = rain_div.find_next('p')
-                        if rain_p:
-                            rain_span = rain_p.select_one('span')
-                            if rain_span:
-                                rain_text = rain_span.text.strip().replace('mm', '').strip()
-                                if rain_text:
-                                    item['precipitation'] = float(rain_text)
-
-                    # Bình minh/hoàng hôn
-                    dawn_title = card.select_one('.item-title:-soup-contains("Bình minh/Hoàng hôn")')
-                    if dawn_title:
-                        dawn_p = dawn_title.find_next('p')
-                        if dawn_p:
-                            dawn_text = dawn_p.text.strip()
-                            if '/' in dawn_text:
-                                dawn_parts = dawn_text.split('/')
-                                if len(dawn_parts) == 2:
-                                    item['sunrise'] = dawn_parts[0].strip()
-                                    item['sunset'] = dawn_parts[1].strip()
-
-                    forecast_items.append(item)
-                except Exception as e:
-                    _LOGGER.warning(f"Lỗi khi phân tích card dự báo 7 ngày: {str(e)}")
-                    continue
-
-            return forecast_items
-
-        except Exception as e:
-            _LOGGER.error(f"Lỗi khi phân tích dự báo theo ngày: {str(e)}")
-            return []
-
-    async def parse_hourly_forecast(self, html_content):
-        """Phân tích dữ liệu dự báo theo giờ từ HTML."""
-        try:
-            soup = BeautifulSoup(html_content, 'html.parser')
-            forecast_items = []
-
-            # Tìm container chứa các dự báo theo giờ
-            forecast_container = soup.select_one('.weather-time-list')
-            if not forecast_container:
-                return []
-
-            # Tìm tất cả các item dự báo theo giờ
-            forecast_divs = forecast_container.select('.weather-time-item')
-
-            for div in forecast_divs:
-                try:
-                    item = {}
-
-                    # Giờ
-                    time_div = div.select_one('.title')
-                    if time_div:
-                        item['time'] = time_div.text.strip()
-
-                    # Nhiệt độ
-                    temp_p = div.select_one('.temp')
-                    if temp_p:
-                        temp_text = temp_p.text.strip()
-                        temps = re.findall(r'(\d+\.?\d*)°', temp_text)
-                        if len(temps) >= 2:
-                            item['temp'] = float(temps[0])
-                            item['apparent_temp'] = float(temps[1])
-
-                    # Độ ẩm
-                    humidity_p = div.select_one('.humidity span')
-                    if humidity_p:
-                        humidity_text = humidity_p.text.strip()
-                        item['humidity'] = float(humidity_text.rstrip('%'))
-
-                    # Điều kiện thời tiết
-                    desc_p = div.select_one('.desc')
-                    if desc_p:
-                        item['condition'] = desc_p.text.strip()
-
-                    forecast_items.append(item)
-                except Exception as e:
-                    _LOGGER.warning(f"Lỗi khi phân tích một mục dự báo theo giờ: {str(e)}")
-                    continue
-
-            return forecast_items
-
-        except Exception as e:
-            _LOGGER.error(f"Lỗi khi phân tích dự báo theo giờ: {str(e)}")
-            return []
-
-    async def parse_air_quality(self, html_content):
-        """Phân tích dữ liệu chất lượng không khí từ HTML."""
+    async def parse_air_quality(self, html_content: str) -> dict[str, Any]:
+        """Phân tích dữ liệu chất lượng không khí từ HTML của dbtt.edu.vn."""
         try:
             soup = BeautifulSoup(html_content, 'html.parser')
             result = {}
 
-            # Tìm container chứa thông tin chất lượng không khí
             air_quality_div = soup.select_one('.air-quality')
             if not air_quality_div:
                 return {}
 
-            # Mức độ chất lượng không khí
             level_div = air_quality_div.select_one('.air-quality-content')
             if level_div:
-                # Tìm class air-X để xác định cấp độ (1-6)
                 classes = level_div.get('class', [])
-                air_level = None
                 for class_name in classes:
                     if class_name.startswith('air-'):
-                        air_level = class_name
+                        result['level'] = class_name
                         break
 
-                if air_level:
-                    result['level'] = air_level.replace('air-', '')
-
-                # Tiêu đề và mô tả
                 title_p = level_div.select_one('.title')
                 desc_p = level_div.select_one('.desc')
-
                 if title_p:
                     result['title'] = title_p.text.strip()
                 if desc_p:
                     result['description'] = desc_p.text.strip()
 
-            # Các chỉ số chi tiết
             air_items = air_quality_div.select('.air-quality-item')
             for item in air_items:
                 title_div = item.select_one('.title')
                 value_p = item.select_one('p')
-
                 if title_div and value_p:
-                    # Lấy tên chỉ số (loại bỏ thẻ sub nếu có)
                     title = ''.join(title_div.stripped_strings).lower()
-                    value = float(value_p.text.strip())
-
-                    # Chuyển đổi tên chỉ số sang key
-                    if 'co' in title:
-                        result['co'] = value
-                    elif 'nh' in title:
-                        result['nh3'] = value
-                    elif 'no2' in title:
-                        result['no2'] = value
-                    elif 'no' in title and 'no2' not in title:
-                        result['no'] = value
-                    elif 'o3' in title or 'o₃' in title:
-                        result['o3'] = value
-                    elif 'pm2.5' in title or 'pm₂.₅' in title:
-                        result['pm2_5'] = value
-                    elif 'pm10' in title or 'pm₁₀' in title:
-                        result['pm10'] = value
-                    elif 'so2' in title or 'so₂' in title:
-                        result['so2'] = value
-
+                    value = _parse_numeric(value_p.text.strip())
+                    key_map = {
+                        'co': 'co', 'nh': 'nh3', 'no2': 'no2', 'no': 'no',
+                        'o3': 'o3', 'o₃': 'o3',
+                        'pm2.5': 'pm2_5', 'pm₂.₅': 'pm2_5',
+                        'pm10': 'pm10', 'pm₁₀': 'pm10',
+                        'so2': 'so2', 'so₂': 'so2'
+                    }
+                    for title_key, result_key in key_map.items():
+                        if title_key in title:
+                            result[result_key] = value
+                            break
             return result
-
         except Exception as e:
-            _LOGGER.error(f"Lỗi khi phân tích chất lượng không khí: {str(e)}")
+            _LOGGER.debug("Lỗi khi phân tích dữ liệu AQI từ dbtt: %s", e)
             return {}
 
     def _convert_ug_to_ppm_for_co(self, ug_value):
-        """Chuyển đổi từ µg/m³ sang ppm cho CO."""
-        # Công thức chuyển đổi: ppm = (µg/m³ * 24.45) / (molecular weight)
-        # Phân tử khối của CO là 28.01 g/mol
+        """Chuyển đổi từ µg/m³ sang ppm cho CO. Giữ lại để tương thích."""
         try:
+            # Phân tử khối của CO là 28.01 g/mol
             ppm = (float(ug_value) * 24.45) / 28.01
             return round(ppm, 3)
         except (ValueError, TypeError):

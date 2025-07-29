@@ -1,7 +1,6 @@
 """Nền tảng thời tiết để tích hợp Weather Vn."""
-from datetime import timedelta, datetime
+from __future__ import annotations
 import logging
-from typing import List, Optional
 from homeassistant.components.weather import (
     WeatherEntity,
     WeatherEntityFeature,
@@ -12,19 +11,18 @@ from homeassistant.const import (
     UnitOfTemperature,
     UnitOfPressure,
     UnitOfSpeed,
+    UnitOfLength,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from .const import (
     ATTRIBUTION,
-    CONF_PROVINCE,
-    CONF_DISTRICT,
-    CONF_SCAN_INTERVAL,
-    DEFAULT_SCAN_INTERVAL,
-    DISTRICTS,
     CONDITION_CLASSES,
+    DOMAIN,
 )
-from .data_service import WeatherVnDataService
+from . import WeatherVnDataUpdateCoordinator
 from .sensor import get_device_info
 
 _LOGGER = logging.getLogger(__name__)
@@ -33,21 +31,12 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Thiết lập thời tiết Weather Vn dựa trên config_entry."""
-    province = entry.data.get(CONF_PROVINCE)
-    district = entry.data.get(CONF_DISTRICT)
-    scan_interval = DEFAULT_SCAN_INTERVAL
-    if entry.options and CONF_SCAN_INTERVAL in entry.options:
-        scan_interval = entry.options.get(CONF_SCAN_INTERVAL)
-    elif CONF_SCAN_INTERVAL in entry.data:
-        scan_interval = entry.data.get(CONF_SCAN_INTERVAL)
-    weather = WeatherVnWeather(province, district, entry.entry_id)
-    weather._data_service = WeatherVnDataService(province, district, scan_interval)
-    weather._data_service.cache_duration = timedelta(minutes=1)
-    async_add_entities([weather], True)
+    """Thiết lập thời tiết Weather Vn ."""
+    coordinator: WeatherVnDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([WeatherVnWeather(coordinator)], True)
 
 
-class WeatherVnWeather(WeatherEntity):
+class WeatherVnWeather(CoordinatorEntity, WeatherEntity):
     """Triển khai dự báo thời tiết Weather Vn."""
 
     _attr_has_entity_name = True
@@ -58,140 +47,139 @@ class WeatherVnWeather(WeatherEntity):
     _attr_native_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_native_pressure_unit = UnitOfPressure.HPA
     _attr_native_wind_speed_unit = UnitOfSpeed.METERS_PER_SECOND
+    _attr_precipitation_unit = UnitOfLength.MILLIMETERS
     _attr_attribution = ATTRIBUTION
 
-    def __init__(self, province: str, district: str, entry_id: str) -> None:
+    def __init__(self, coordinator: WeatherVnDataUpdateCoordinator) -> None:
         """Khởi tạo thời tiết Weather Vn."""
-        self._province = province
-        self._district = district
-        self._entry_id = entry_id
-        self._attr_name = f"{DISTRICTS.get(district, district.capitalize())}"
-        self._attr_unique_id = f"weathervn-{province}-{district}"
-        self._attr_device_info = get_device_info(province, district)
-        self._data_service = WeatherVnDataService(province, district, DEFAULT_SCAN_INTERVAL)
-        self._forecast_daily = None
-        self._forecast_hourly = None
-
-    async def async_update(self) -> None:
-        """Cập nhật tình hình hiện tại."""
-        try:
-            # Luôn lấy dữ liệu mới, không sử dụng cache
-            self._data_service.cache_data = None
-            self._data_service.cache_time = None
-            data = await self._data_service.get_data()
-            if not data:
-                return
-
-            weather_data = data.get("current_weather", {})
-            if weather_data:
-                self._attr_native_temperature = weather_data.get("temperature")
-
-                condition_text = weather_data.get("condition", "").lower()
-                self._attr_condition = CONDITION_CLASSES.get(condition_text, "exceptional")
-
-                if "humidity" in weather_data:
-                    self._attr_humidity = weather_data.get("humidity")
-
-                if "wind_speed" in weather_data:
-                    self._attr_native_wind_speed = weather_data.get("wind_speed")
-
-                if "dew_point" in weather_data:
-                    self._attr_native_dew_point = weather_data.get("dew_point")
-
-            self._forecast_daily = data.get("daily_forecast", [])
-            self._forecast_hourly = data.get("hourly_forecast", [])
-
-        except Exception as e:
-            _LOGGER.error(f"Error updating Weather Vn data: {e}")
+        super().__init__(coordinator)
+        self._attr_name = f"{coordinator.district.capitalize()}"
+        self._attr_unique_id = f"weathervn-{coordinator.province}-{coordinator.district}"
+        self._attr_device_info = get_device_info(coordinator.province, coordinator.district)
 
     @property
-    def forecast(self) -> Optional[List[Forecast]]:
-        """Trả lại dự báo."""
+    def available(self) -> bool:
+        """Trả về true nếu coordinator có dữ liệu."""
+        return self.coordinator.data is not None
+
+    @property
+    def condition(self) -> str | None:
+        """Trả về điều kiện thời tiết hiện tại."""
+        if not self.available:
+            return None
+        condition_text = self.coordinator.data.get("current_weather", {}).get("condition", "").lower()
+        return CONDITION_CLASSES.get(condition_text)
+
+    @property
+    def native_temperature(self) -> float | None:
+        """Trả về nhiệt độ hiện tại."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("temperature")
+
+    @property
+    def native_temperature_high(self) -> float | None:
+        """Trả về nhiệt độ cao nhất hôm nay."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("temp_high")
+
+    @property
+    def native_temperature_low(self) -> float | None:
+        """Trả về nhiệt độ thấp nhất hôm nay."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("temp_low")
+
+    @property
+    def humidity(self) -> float | None:
+        """Trả về độ ẩm."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("humidity")
+
+    @property
+    def native_wind_speed(self) -> float | None:
+        """Trả về tốc độ gió."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("wind_speed")
+
+    @property
+    def native_pressure(self) -> float | None:
+        """Trả về áp suất."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("pressure")
+
+    @property
+    def native_visibility(self) -> float | None:
+        """Trả về tầm nhìn."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("visibility")
+
+    @property
+    def native_precipitation_value(self) -> float | None:
+        """Trả về lượng mưa hiện tại (lấy từ dự báo 2 giờ)."""
+        if not self.available:
+            return None
+        return self.coordinator.data.get("current_weather", {}).get("precipitation_amount")
+
+    @property
+    def forecast_daily(self) -> list[Forecast] | None:
+        """Trả về dự báo thời tiết hàng ngày."""
+        if not self.available or not self.coordinator.data.get("daily_forecast"):
+            return None
+
+        ha_forecasts: list[Forecast] = []
+        for forecast in self.coordinator.data["daily_forecast"]:
+            condition_text = (forecast.get("condition") or "").lower()
+            condition = CONDITION_CLASSES.get(condition_text, "exceptional")
+
+            ha_forecasts.append(
+                {
+                    "datetime": forecast.get("datetime"),
+                    "condition": condition,
+                    "native_temperature": forecast.get("temp_high"),
+                    "native_templow": forecast.get("temp_low"),
+                    "native_precipitation_value": forecast.get("precipitation"),
+                    "precipitation_probability": forecast.get("precipitation_probability"),
+                    "humidity": forecast.get("humidity"),
+                    "native_wind_speed": forecast.get("wind_speed"),
+                }
+            )
+        return ha_forecasts
+
+    async def async_forecast_daily(self) -> list[Forecast] | None:
+        """Trả về dự báo hàng ngày."""
         return self.forecast_daily
 
     @property
-    def forecast_daily(self) -> Optional[List[Forecast]]:
-        """Trả về dự báo hàng ngày."""
-        if not self._forecast_daily:
+    def forecast_hourly(self) -> list[Forecast] | None:
+        """Trả về dự báo thời tiết hàng giờ."""
+        if not self.available or not self.coordinator.data.get("hourly_forecast"):
             return None
 
-        ha_forecasts = []
-        for forecast in self._forecast_daily:
-            condition_text = forecast.get("condition", "").lower()
+        ha_forecasts: list[Forecast] = []
+        for forecast in self.coordinator.data["hourly_forecast"]:
+            condition_text = (forecast.get("condition") or "").lower()
             condition = CONDITION_CLASSES.get(condition_text, "exceptional")
 
-            forecast_item = {
-                "condition": condition,
-                "native_temperature": forecast.get("temp_high"),
-                "native_templow": forecast.get("temp_low"),
-            }
-
-            # Thêm date nếu có - chuyển đổi từ chuỗi "DD/MM" sang đối tượng datetime ISO format
-            date_text = forecast.get("date", "")
-            if date_text:
-                try:
-                    day, month = map(int, date_text.split("/"))
-                    year = datetime.now().year
-                    if month == 1 and datetime.now().month == 12:
-                        year += 1
-                    date_obj = datetime(year, month, day).isoformat()
-                    forecast_item["datetime"] = date_obj
-                except (ValueError, IndexError):
-                    forecast_item["datetime"] = date_text
-
-            ha_forecasts.append(forecast_item)
-
+            ha_forecasts.append(
+                {
+                    "datetime": forecast.get("datetime"),
+                    "condition": condition,
+                    "native_temperature": forecast.get("temperature"),
+                    "native_apparent_temperature": forecast.get("apparent_temperature"),
+                    "humidity": forecast.get("humidity"),
+                    "precipitation_probability": forecast.get("precipitation_probability"),
+                    "native_wind_speed": forecast.get("wind_speed"),
+                    "native_precipitation_value": forecast.get("precipitation"),
+                }
+            )
         return ha_forecasts
 
-    async def async_forecast_daily(self) -> Optional[List[Forecast]]:
-        """Trả về dự báo hàng ngày."""
-        return self.forecast_daily
-
-    @property
-    def forecast_hourly(self) -> Optional[List[Forecast]]:
-        """Trả về dự báo hàng giờ."""
-        if not self._forecast_hourly:
-            return None
-
-        ha_forecasts = []
-        for forecast in self._forecast_hourly:
-            condition_text = forecast.get("condition", "").lower()
-            condition = CONDITION_CLASSES.get(condition_text, "exceptional")
-
-            forecast_item = {
-                "condition": condition,
-                "native_temperature": forecast.get("temp"),
-                "humidity": forecast.get("humidity"),
-            }
-
-            # Thêm time nếu có - chuyển đổi sang định dạng ISO
-            time_text = forecast.get("time", "")
-            if time_text:
-                try:
-                    hour_str, minute_str = time_text.split(":")
-                    hour = int(hour_str)
-                    minute = int(minute_str.split()[0])
-                    is_pm = "pm" in time_text.lower()
-
-                    if is_pm and hour < 12:
-                        hour += 12
-                    elif not is_pm and hour == 12:
-                        hour = 0
-
-                    now = datetime.now()
-                    forecast_datetime = now.replace(hour=hour, minute=minute)
-
-                    if forecast_datetime < now:
-                        forecast_datetime = forecast_datetime + timedelta(days=1)
-
-                    forecast_item["datetime"] = forecast_datetime.isoformat()
-                except (ValueError, IndexError):
-                    forecast_item["datetime"] = time_text
-
-            ha_forecasts.append(forecast_item)
-
-        return ha_forecasts
-
-    async def async_forecast_hourly(self) -> Optional[List[Forecast]]:
+    async def async_forecast_hourly(self) -> list[Forecast] | None:
         """Trả về dự báo hàng giờ."""
         return self.forecast_hourly
