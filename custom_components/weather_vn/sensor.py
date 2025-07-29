@@ -39,7 +39,7 @@ def get_device_info(province: str, district: str) -> DeviceInfo:
         name=f"Thời tiết {district.capitalize()}",
         manufacturer="Smarthome Black",
         model="Weather Vn",
-        sw_version="2025.7.28",
+        sw_version="2025.7.29",
     )
 
 
