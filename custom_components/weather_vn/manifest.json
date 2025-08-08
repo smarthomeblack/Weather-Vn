@@ -1,5 +1,5 @@
 {
-  "domain": "weather_vn",
+  "domain": "Weather_vn",
   "name": "Weather Vn",
   "codeowners": ["@smarthomeblack"],
   "config_flow": true,
